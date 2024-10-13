@@ -3,4 +3,10 @@
     <string name="your_profit">Ваша прибыль:</string>
     <string name="inc_con">Доход/расход:</string>
     <string name="choose_period">Выберите период:</string>
+    <string name="inc_value">Введите доходы</string>
+    <string name="con_value">Введите расходы</string>
+    <string name="btn_ok">Сохранить</string>
+    <string name="btn_clear">Очистить</string>
+    <string name="profit_of_day">Ваша прибыль в день:</string>
+    <string name="enter_value">"Введите значение"</string>
 </resources>
