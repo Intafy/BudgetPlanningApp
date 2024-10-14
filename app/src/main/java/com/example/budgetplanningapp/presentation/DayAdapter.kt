@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.budgetplanningapp.R
+import com.example.budgetplanningapp.domain.models.DayItem
 
 class DayAdapter(private val listItem:ArrayList<DayItem>): RecyclerView.Adapter<DayAdapter.ItemHolder>() {
 

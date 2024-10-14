@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.example.budgetplanningapp.R
+import com.example.budgetplanningapp.domain.models.DayItem
 import java.util.Calendar
 
 class DayItemDialog(private val listener:Listener):DialogFragment() {
@@ -70,6 +71,6 @@ class DayItemDialog(private val listener:Listener):DialogFragment() {
         }
     }
     interface Listener{
-        fun onClick(item:DayItem)
+        fun onClick(item: DayItem)
     }
 }

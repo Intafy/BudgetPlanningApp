@@ -1,10 +1,15 @@
-package com.example.budgetplanningapp.presentation
+package com.example.budgetplanningapp.presentation.viewmodels
 
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.budgetplanningapp.domain.models.DayItem
 
 class MainViewModel:ViewModel() {
+    init{
+        Log.d("MyLog","VM created")
+    }
     //Тут создается список, хранящий доход и расход в разные дни, иммитируя базу данных
      private var listItem= arrayListOf<DayItem>(
         DayItem("21.03.20",5.0,4.0,1.0),
@@ -19,10 +24,15 @@ class MainViewModel:ViewModel() {
     //Тут будет хранится информация о доходах/расходах за все дни
     var liveDateList = MutableLiveData<List<DayItem>>()
 
-    fun onGetListDataItem():ArrayList<DayItem>{
-        return listItem
-    }
-    fun onAddItemToList(item:DayItem){
-        listItem.add(item)
+//    fun onGetListDataItem():ArrayList<DayItem>{
+//        return listItem
+//    }
+//    fun onAddItemToList(item: DayItem){
+//        listItem.add(item)
+//    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("MyLog","Vm cleared")
     }
 }

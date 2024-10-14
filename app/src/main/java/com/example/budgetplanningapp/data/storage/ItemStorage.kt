@@ -1,8 +1,10 @@
-package com.example.budgetplanningapp.presentation
+package com.example.budgetplanningapp.data.storage
 
-data class DayItem(
+data class ItemStorage (
     val date:String,
     val income: Double,
     val consumption: Double,
     val profit: Double
-)
+) {
+
+}
