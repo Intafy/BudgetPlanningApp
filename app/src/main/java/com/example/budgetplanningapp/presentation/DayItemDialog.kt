@@ -30,7 +30,6 @@ class DayItemDialog(private val listener:Listener):DialogFragment() {
         return inflater.inflate(R.layout.item_dialog, container, false)
     }
 
-    @SuppressLint("ResourceAsColor")
     override fun onStart() {
         super.onStart()
         val viewDialog=view
@@ -44,9 +43,7 @@ class DayItemDialog(private val listener:Listener):DialogFragment() {
                context,
                calendarDate.getTimeInMillis(),
                DateUtils.FORMAT_SHOW_YEAR)
-
-            tvDate.text = date
-
+           tvDate.text = date
 
            btnOk.setOnClickListener{
 

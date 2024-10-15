@@ -3,6 +3,8 @@ package com.example.budgetplanningapp.presentation
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.budgetplanningapp.data.repository.DayItemRepositoryImp
 import com.example.budgetplanningapp.data.storage.DbDayItemStorage
@@ -11,6 +13,7 @@ import com.example.budgetplanningapp.domain.models.DayItem
 import com.example.budgetplanningapp.domain.usecases.LoadListDayItemUseCase
 import com.example.budgetplanningapp.domain.usecases.SaveDayItemUseCase
 import com.example.budgetplanningapp.presentation.viewmodels.MainViewModel
+import com.example.budgetplanningapp.presentation.viewmodels.MainViewModelFactory
 
 class MainActivity : AppCompatActivity(),DayItemDialog.Listener {
     private lateinit var binding: ActivityMainBinding
@@ -18,10 +21,7 @@ class MainActivity : AppCompatActivity(),DayItemDialog.Listener {
     private lateinit var model: MainViewModel
 
 
-    private val dbDayItemStorage:DbDayItemStorage = DbDayItemStorage()
-    private val dayItemRepositoryImp:DayItemRepositoryImp = DayItemRepositoryImp(dbDayItemStorage)
-    private val loadListDayItemUseCase:LoadListDayItemUseCase = LoadListDayItemUseCase(dayItemRepositoryImp)
-    private val saveDayItemUseCase:SaveDayItemUseCase = SaveDayItemUseCase(dayItemRepositoryImp)
+
 
 
 
@@ -30,32 +30,24 @@ class MainActivity : AppCompatActivity(),DayItemDialog.Listener {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
-
-
-
-
         binding.btnAdd.setOnClickListener{
             val itemDialog = DayItemDialog(this,)
             itemDialog.show(supportFragmentManager,"itemDialog")
         }
         Log.d("MyLog","Activity created")
+        model.onGetListDataItemFromDb()
+        model.liveDataList.observe(this, {
+            adapter.setList(it)
+        })
     }
     private fun init(){
-        adapter=DayAdapter(onGetDataList())
+        model = ViewModelProvider(this,MainViewModelFactory(this))[MainViewModel::class.java]
         binding.rcView.layoutManager=LinearLayoutManager(this)
         binding.rcView.adapter=adapter
-        //model = ViewModelProvider(this)[MainViewModel::class.java]
+        adapter=DayAdapter()
     }
-    private fun onGetDataList():ArrayList<DayItem>{
-       return loadListDayItemUseCase.execute()
-//        return model.onGetListDataItem()
-    }
+
     override fun onClick(item: DayItem) {
-        saveDayItemUseCase.execute(item)
-        //Жесткий костыль, чтобы проверить
-        //сохраняет ли в нашу импровизированную БД новое значение
-        //Надо делать через viewModel observer Live Data
-        init()
-//        model.onAddItemToList(item)
+        model.onSaveItemToDb(item)
     }
 }
