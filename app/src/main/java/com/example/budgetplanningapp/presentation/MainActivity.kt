@@ -41,10 +41,11 @@ class MainActivity : AppCompatActivity(),DayItemDialog.Listener {
         })
     }
     private fun init(){
+        adapter=DayAdapter()
         model = ViewModelProvider(this,MainViewModelFactory(this))[MainViewModel::class.java]
         binding.rcView.layoutManager=LinearLayoutManager(this)
         binding.rcView.adapter=adapter
-        adapter=DayAdapter()
+
     }
 
     override fun onClick(item: DayItem) {

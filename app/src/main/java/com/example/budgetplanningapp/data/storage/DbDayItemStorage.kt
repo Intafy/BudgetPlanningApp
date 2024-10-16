@@ -15,9 +15,10 @@ class DbDayItemStorage(context:Context): DayItemStorage {
         ItemStorage(4,"24.03.20",2.0,3.0,-833.0),
         ItemStorage(5,"25.03.20",6.0,1.0,727.0)
     )
-
+    val mainDb=MainDb.getDb(context=context)
     override fun save(itemStorage: ItemStorage):Boolean {
-//        val mainDb = MainDb.getDb(context=context)
+//        listItem.add(itemStorage)
+        mainDb.getDao().insertItem(itemStorage)
         return true
     }
 
