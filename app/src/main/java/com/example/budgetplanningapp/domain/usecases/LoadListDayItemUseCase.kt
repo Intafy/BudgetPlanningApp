@@ -5,7 +5,7 @@ import com.example.budgetplanningapp.domain.repository.DayItemRepository
 
 class LoadListDayItemUseCase(private val dayItemRepository: DayItemRepository) {
 
-    fun execute(): ArrayList<DayItem> {
+     fun execute(): ArrayList<DayItem> {
         return dayItemRepository.loadDayItemListFromDb()
     }
 

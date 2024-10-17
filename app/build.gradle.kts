@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     kapt (libs.androidx.room.compiler.v261)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

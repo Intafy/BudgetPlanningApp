@@ -9,8 +9,8 @@ import com.example.budgetplanningapp.R
 import com.example.budgetplanningapp.domain.models.DayItem
 
 class DayAdapter(): RecyclerView.Adapter<DayAdapter.ItemHolder>() {
-    private lateinit var listItem: ArrayList<DayItem>
 
+    private lateinit var listItem: ArrayList<DayItem>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_day,parent,false)

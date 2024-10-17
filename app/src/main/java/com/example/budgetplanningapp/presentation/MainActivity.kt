@@ -20,31 +20,31 @@ class MainActivity : AppCompatActivity(),DayItemDialog.Listener {
     private lateinit var adapter: DayAdapter
     private lateinit var model: MainViewModel
 
-
-
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
+
         binding.btnAdd.setOnClickListener{
-            val itemDialog = DayItemDialog(this,)
+            val itemDialog = DayItemDialog(this)
             itemDialog.show(supportFragmentManager,"itemDialog")
         }
         Log.d("MyLog","Activity created")
         model.onGetListDataItemFromDb()
-        model.liveDataList.observe(this, {
+        Log.d("MyLog","onGetListDataItemFromDb()")
+        model.liveDataList.observe(this) {
+            //Запустится когда изменится liveDataList
             adapter.setList(it)
-        })
+        }
     }
     private fun init(){
-        adapter=DayAdapter()
+
         model = ViewModelProvider(this,MainViewModelFactory(this))[MainViewModel::class.java]
+        adapter= DayAdapter()
         binding.rcView.layoutManager=LinearLayoutManager(this)
         binding.rcView.adapter=adapter
+
 
     }
 

@@ -6,6 +6,6 @@ interface DayItemRepository {
 
      fun saveDayItemToDb(dayItem: DayItem):Boolean
 
-     fun loadDayItemListFromDb(): ArrayList<DayItem>
+      fun loadDayItemListFromDb(): ArrayList<DayItem>
 
 }
