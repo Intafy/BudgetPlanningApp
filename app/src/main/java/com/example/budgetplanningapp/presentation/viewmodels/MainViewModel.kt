@@ -2,14 +2,15 @@ package com.example.budgetplanningapp.presentation.viewmodels
 
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+
 import com.example.budgetplanningapp.domain.models.DayItem
 import com.example.budgetplanningapp.domain.usecases.LoadListDayItemUseCase
 import com.example.budgetplanningapp.domain.usecases.SaveDayItemUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 
 class MainViewModel(
@@ -23,11 +24,14 @@ class MainViewModel(
     }
 
     //Тут будет хранится информация о доходах/расходах за все дни
-    var liveDataList = MutableLiveData<ArrayList<DayItem>>()
+    var liveDataList = MutableLiveData<List<DayItem>>()
 
-    fun onGetListDataItemFromDb(){
+    fun onGetListDataItemFromDb() {
 
-    liveDataList.value=loadListDayItemUseCase.execute()
+        liveDataList= loadListDayItemUseCase.execute().asLiveData() as MutableLiveData<List<DayItem>>
+        Log.d("MyLog","CoroutineScope is running")
+
+        Log.d("MyLog","liveDataList.value: ${liveDataList.value}")
 
     }
 

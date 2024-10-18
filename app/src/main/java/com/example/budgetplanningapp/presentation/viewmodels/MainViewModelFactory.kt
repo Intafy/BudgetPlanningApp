@@ -10,10 +10,10 @@ import com.example.budgetplanningapp.domain.usecases.SaveDayItemUseCase
 
 class MainViewModelFactory(context: Context):ViewModelProvider.Factory {
 
-    private val dbDayItemStorage: DbDayItemStorage = DbDayItemStorage(context)
-    private val dayItemRepositoryImp: DayItemRepositoryImp = DayItemRepositoryImp(dbDayItemStorage)
-    private val loadListDayItemUseCase: LoadListDayItemUseCase = LoadListDayItemUseCase(dayItemRepositoryImp)
-    private val saveDayItemUseCase: SaveDayItemUseCase = SaveDayItemUseCase(dayItemRepositoryImp)
+    private val dbDayItemStorage: DbDayItemStorage = DbDayItemStorage(context = context)
+    private val dayItemRepositoryImp: DayItemRepositoryImp = DayItemRepositoryImp(dayItemStorage = dbDayItemStorage)
+    private val loadListDayItemUseCase: LoadListDayItemUseCase = LoadListDayItemUseCase(dayItemRepository = dayItemRepositoryImp)
+    private val saveDayItemUseCase: SaveDayItemUseCase = SaveDayItemUseCase(dayItemRepository = dayItemRepositoryImp)
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MainViewModel(loadListDayItemUseCase,saveDayItemUseCase) as T

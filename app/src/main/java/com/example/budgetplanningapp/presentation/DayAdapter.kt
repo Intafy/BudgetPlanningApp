@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.budgetplanningapp.R
 import com.example.budgetplanningapp.domain.models.DayItem
 
-class DayAdapter(): RecyclerView.Adapter<DayAdapter.ItemHolder>() {
+class DayAdapter(private var listItem: List<DayItem>): RecyclerView.Adapter<DayAdapter.ItemHolder>() {
 
-    private lateinit var listItem: ArrayList<DayItem>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_day,parent,false)
@@ -30,8 +29,9 @@ class DayAdapter(): RecyclerView.Adapter<DayAdapter.ItemHolder>() {
         val tvDateOfDay:TextView = itemView.findViewById(R.id.tvDateOfDay)
         val tvProfitValueOfDay:TextView = itemView.findViewById(R.id.tvProfitValueOfDay)
     }
-    fun setList(plistItem:ArrayList<DayItem>){
+    fun setList(plistItem:List<DayItem>){
         listItem=plistItem
+        notifyDataSetChanged()
 
     }
 }

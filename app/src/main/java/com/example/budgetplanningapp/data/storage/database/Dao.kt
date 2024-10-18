@@ -12,5 +12,5 @@ interface Dao {
     @Insert
     fun insertItem(item:ItemStorage)
     @Query("SELECT*FROM items")
-    fun getAllItems(): Flow<ItemStorage>
+    fun getAllItems(): Flow<List<ItemStorage>>
 }
