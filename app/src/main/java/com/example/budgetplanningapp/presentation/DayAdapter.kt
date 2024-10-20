@@ -32,6 +32,5 @@ class DayAdapter(private var listItem: List<DayItem>): RecyclerView.Adapter<DayA
     fun setList(plistItem:List<DayItem>){
         listItem=plistItem
         notifyDataSetChanged()
-
     }
 }

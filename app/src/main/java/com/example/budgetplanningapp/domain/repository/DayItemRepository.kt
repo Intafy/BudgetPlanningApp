@@ -8,6 +8,6 @@ interface DayItemRepository {
 
      suspend fun saveDayItemToDb(dayItem: DayItem):Boolean
 
-     fun loadDayItemListFromDb(): LiveData<List<DayItem>>
+     suspend fun loadDayItemListFromDb(): List<DayItem>
 
 }

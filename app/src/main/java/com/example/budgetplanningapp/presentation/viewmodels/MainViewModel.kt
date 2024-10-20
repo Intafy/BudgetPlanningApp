@@ -25,11 +25,12 @@ class MainViewModel(
 
     //Тут будет хранится информация о доходах/расходах за все дни
     private var liveDataList = MutableLiveData<List<DayItem>>()
+    private var tempList:List<DayItem> = listOf()
 
     fun onGetAllFromDb(): LiveData<List<DayItem>> {
-        liveDataList = loadListDayItemUseCase.execute() as MutableLiveData
-        Log.d("MyLog","liveDataList: ${liveDataList.value}")
-
+        viewModelScope.launch{
+            liveDataList.value=loadListDayItemUseCase.execute()
+        }
         return liveDataList
     }
 

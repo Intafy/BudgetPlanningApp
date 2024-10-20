@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemRepository {
-     private  var dayItemList = MutableLiveData<List<DayItem>>()
-     private lateinit var itemStorageList:LiveData<List<ItemStorage>>
+     private  var dayItemList = listOf<DayItem>()
+     private lateinit var itemStorageList:List<ItemStorage>
      private var tempDayItemList = ArrayList<DayItem>()
 
     override suspend fun saveDayItemToDb(dayItem: DayItem): Boolean {
@@ -36,27 +36,27 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
         return result
     }
 
-    override fun loadDayItemListFromDb(): LiveData<List<DayItem>> {
+    override suspend fun loadDayItemListFromDb(): List<DayItem> {
         //Здесь из списка объектов модели ItemStorage , приходящей со слоя Storage,
         // мы информацию сохраняем в список объектов модели DayItem слоя Domain
 
                 itemStorageList = dayItemStorage.load()
-        Log.d("MyLog","dayItemStorage.load(): ${dayItemStorage.load().value}")
+//        Log.d("MyLog","dayItemStorage.load(): ${dayItemStorage.load().value}")
 
-        Log.d("MyLog","itemStorageList: ${itemStorageList.value}")
-                if(itemStorageList.value!=null){
-                    for (i in 0..itemStorageList.value!!.size) {
+        Log.d("MyLog","itemStorageList: ${itemStorageList}")
+                if(itemStorageList!=null){
+                    for (i in itemStorageList.indices) {
                         val dayItem = DayItem(
-                            date = itemStorageList.value!![i].date,
-                            income = itemStorageList.value!![i].income,
-                            consumption = itemStorageList.value!![i].consumption,
-                            profit = itemStorageList.value!![i].profit
+                            date = itemStorageList[i].date,
+                            income = itemStorageList[i].income,
+                            consumption = itemStorageList[i].consumption,
+                            profit = itemStorageList[i].profit
                         )
                         tempDayItemList.add(dayItem)
                         Log.d("MyLog", "dayItem: $dayItem")
                     }
                 }
-            dayItemList.value = tempDayItemList
+            dayItemList = tempDayItemList
 
 
         return dayItemList

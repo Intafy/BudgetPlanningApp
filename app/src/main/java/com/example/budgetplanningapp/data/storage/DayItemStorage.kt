@@ -7,5 +7,5 @@ import com.example.budgetplanningapp.data.storage.database.ItemStorage
 
 interface DayItemStorage {
      suspend fun save(itemStorage: ItemStorage):Boolean
-     fun load(): LiveData<List<ItemStorage>>
+     suspend fun load(): List<ItemStorage>
 }

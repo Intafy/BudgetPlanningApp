@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class LoadListDayItemUseCase(private val dayItemRepository: DayItemRepository) {
 
-    fun execute(): LiveData<List<DayItem>> {
+    suspend fun execute(): List<DayItem> {
 
         return dayItemRepository.loadDayItemListFromDb()
     }

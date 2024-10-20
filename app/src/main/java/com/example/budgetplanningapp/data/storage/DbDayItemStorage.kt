@@ -17,7 +17,7 @@ class DbDayItemStorage(context:Context): DayItemStorage {
         return@withContext true
     }
 
-    override fun load(): LiveData<List<ItemStorage>> {
+    override suspend fun load(): List<ItemStorage> {
 
         return mainDb.getDao().getAllItems()
         }
