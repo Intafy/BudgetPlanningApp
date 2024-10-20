@@ -5,12 +5,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 
 import com.example.budgetplanningapp.domain.models.DayItem
 import com.example.budgetplanningapp.domain.usecases.LoadListDayItemUseCase
 import com.example.budgetplanningapp.domain.usecases.SaveDayItemUseCase
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainViewModel(
@@ -20,24 +21,22 @@ class MainViewModel(
 
     init{
         Log.d("MyLog","VM created")
-
     }
 
     //Тут будет хранится информация о доходах/расходах за все дни
-    var liveDataList = MutableLiveData<List<DayItem>>()
+    private var liveDataList = MutableLiveData<List<DayItem>>()
 
-    fun onGetListDataItemFromDb() {
+    fun onGetAllFromDb(): LiveData<List<DayItem>> {
+        liveDataList = loadListDayItemUseCase.execute() as MutableLiveData
+        Log.d("MyLog","liveDataList: ${liveDataList.value}")
 
-        liveDataList= loadListDayItemUseCase.execute().asLiveData() as MutableLiveData<List<DayItem>>
-        Log.d("MyLog","CoroutineScope is running")
-
-        Log.d("MyLog","liveDataList.value: ${liveDataList.value}")
-
+        return liveDataList
     }
 
     fun onSaveItemToDb(item: DayItem){
-
-        saveDayItemUseCase.execute(item)
+        viewModelScope.launch(Dispatchers.IO) {
+            saveDayItemUseCase.execute(item)
+        }
     }
 
     override fun onCleared() {

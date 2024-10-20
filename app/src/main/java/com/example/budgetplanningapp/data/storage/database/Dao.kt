@@ -1,16 +1,17 @@
 package com.example.budgetplanningapp.data.storage.database
 
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
+
 
 
 @Dao
 interface Dao {
     @Insert
-    fun insertItem(item:ItemStorage)
-    @Query("SELECT*FROM items")
-    fun getAllItems(): Flow<List<ItemStorage>>
+    suspend fun insertItem(item:ItemStorage)
+    @Query("SELECT*FROM items ORDER BY id ASC")
+    fun getAllItems(): LiveData<List<ItemStorage>>
 }

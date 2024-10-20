@@ -2,6 +2,7 @@ package com.example.budgetplanningapp.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 
 import com.example.budgetplanningapp.data.storage.DayItemStorage
@@ -16,49 +17,46 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemRepository {
-    private lateinit var dayItemList:Flow<List<DayItem>>
-    private lateinit var itemStorageList:Flow<List<ItemStorage>>
+     private  var dayItemList = MutableLiveData<List<DayItem>>()
+     private lateinit var itemStorageList:LiveData<List<ItemStorage>>
+     private var tempDayItemList = ArrayList<DayItem>()
 
-    override fun saveDayItemToDb(dayItem: DayItem): Boolean {
+    override suspend fun saveDayItemToDb(dayItem: DayItem): Boolean {
         //Здесь из модели объекта DayItem, приходящей со слоя Domain,
         // мы информацию сохраняем в объект модели ItemStorage слоя Storage
         var result = true
-        val itemStorage = ItemStorage(
-            date=dayItem.date,
-            income = dayItem.income,
-            consumption = dayItem.consumption,
-            profit = dayItem.profit
-        )
-        CoroutineScope(Dispatchers.Main).launch{
+            val itemStorage = ItemStorage(
+                date=dayItem.date,
+                income = dayItem.income,
+                consumption = dayItem.consumption,
+                profit = dayItem.profit
+            )
             Log.d("MyLog", "CoroutineScopeSave is running")
-
             result = dayItemStorage.save(itemStorage)
-
-        }
         return result
     }
 
-    override fun loadDayItemListFromDb(): Flow<List<DayItem>> {
+    override fun loadDayItemListFromDb(): LiveData<List<DayItem>> {
         //Здесь из списка объектов модели ItemStorage , приходящей со слоя Storage,
         // мы информацию сохраняем в список объектов модели DayItem слоя Domain
 
+                itemStorageList = dayItemStorage.load()
+        Log.d("MyLog","dayItemStorage.load(): ${dayItemStorage.load().value}")
 
-                Log.d("MyLog", "CoroutineScope is running")
-
-//                dayItemList = dayItemStorage.load()
-//                dayItemList = itemStorageList
-
-
-//                for (i in 0..itemStorageList) {
-//                    val dayItem = DayItem(
-//                        date = itemStorageList[i].date,
-//                        income = itemStorageList[i].income,
-//                        consumption = itemStorageList[i].consumption,
-//                        profit = itemStorageList[i].profit
-//                    )
-//                    dayItemList.add(dayItem)
-//                    Log.d("MyLog", "dayItem: $dayItem")
-//                }
+        Log.d("MyLog","itemStorageList: ${itemStorageList.value}")
+                if(itemStorageList.value!=null){
+                    for (i in 0..itemStorageList.value!!.size) {
+                        val dayItem = DayItem(
+                            date = itemStorageList.value!![i].date,
+                            income = itemStorageList.value!![i].income,
+                            consumption = itemStorageList.value!![i].consumption,
+                            profit = itemStorageList.value!![i].profit
+                        )
+                        tempDayItemList.add(dayItem)
+                        Log.d("MyLog", "dayItem: $dayItem")
+                    }
+                }
+            dayItemList.value = tempDayItemList
 
 
         return dayItemList

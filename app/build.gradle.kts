@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.6")
+    implementation("androidx.lifecycle:lifecycle-livedata-core")
     kapt (libs.androidx.room.compiler.v261)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,12 +1,13 @@
 package com.example.budgetplanningapp.domain.repository
 
+import androidx.lifecycle.LiveData
 import com.example.budgetplanningapp.domain.models.DayItem
 import kotlinx.coroutines.flow.Flow
 
 interface DayItemRepository {
 
-     fun saveDayItemToDb(dayItem: DayItem):Boolean
+     suspend fun saveDayItemToDb(dayItem: DayItem):Boolean
 
-     fun loadDayItemListFromDb(): Flow<List<DayItem>>
+     fun loadDayItemListFromDb(): LiveData<List<DayItem>>
 
 }
