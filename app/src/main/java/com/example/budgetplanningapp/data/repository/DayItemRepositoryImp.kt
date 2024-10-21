@@ -40,10 +40,8 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
         //Здесь из списка объектов модели ItemStorage , приходящей со слоя Storage,
         // мы информацию сохраняем в список объектов модели DayItem слоя Domain
 
-                itemStorageList = dayItemStorage.load()
-//        Log.d("MyLog","dayItemStorage.load(): ${dayItemStorage.load().value}")
-
-        Log.d("MyLog","itemStorageList: ${itemStorageList}")
+        itemStorageList = dayItemStorage.load()
+//        Log.d("MyLog","itemStorageList: ${itemStorageList}")
                 if(itemStorageList!=null){
                     for (i in itemStorageList.indices) {
                         val dayItem = DayItem(
@@ -53,12 +51,9 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
                             profit = itemStorageList[i].profit
                         )
                         tempDayItemList.add(dayItem)
-                        Log.d("MyLog", "dayItem: $dayItem")
                     }
                 }
             dayItemList = tempDayItemList
-
-
         return dayItemList
     }
 }

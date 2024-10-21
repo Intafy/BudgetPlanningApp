@@ -10,6 +10,6 @@ import androidx.room.Query
 interface Dao {
     @Insert
     suspend fun insertItem(item:ItemStorage)
-    @Query("SELECT*FROM items ORDER BY id ASC")
+    @Query("SELECT*FROM items")
     suspend fun getAllItems(): List<ItemStorage>
 }

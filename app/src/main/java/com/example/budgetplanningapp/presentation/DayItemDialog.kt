@@ -1,5 +1,6 @@
 package com.example.budgetplanningapp.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.LayoutInflater
@@ -13,7 +14,8 @@ import com.example.budgetplanningapp.R
 import com.example.budgetplanningapp.domain.models.DayItem
 import java.util.Calendar
 
-class DayItemDialog(private val listener:Listener):DialogFragment() {
+class DayItemDialog(private var listener:Listener):DialogFragment() {
+
     private lateinit var btnOk:Button
     private lateinit var btnClear:Button
     private lateinit var edInc:EditText
@@ -67,8 +69,14 @@ class DayItemDialog(private val listener:Listener):DialogFragment() {
         }
     }
 
-
     interface Listener{
         fun onClick(item: DayItem)
     }
+
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        if(context==listener){
+//            listener==context as Listener
+//        }else  throw RuntimeException(context.toString()+"must implement Listener")
+//    }
 }

@@ -15,14 +15,14 @@ class MainActivity : AppCompatActivity(),DayItemDialog.Listener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: DayAdapter
     private lateinit var model: MainViewModel
-    private val dayItemList:List<DayItem> = listOf()
+    private val dayItemList:ArrayList<DayItem> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
-        model.onGetAllFromDb().observe(this) {
+        model.onLoadLiveData().observe(this) {
                 //Запустится когда изменится liveDataList
             adapter.setList(it)
         }
@@ -33,6 +33,17 @@ class MainActivity : AppCompatActivity(),DayItemDialog.Listener {
             Log.d("MyLog", "Activity created")
         }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d("MyLog", "Activity onStart")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MyLog", "Activity onResume")
+
+    }
     private fun init() {
 
         model = ViewModelProvider(this, MainViewModelFactory(this))[MainViewModel::class.java]
