@@ -17,14 +17,15 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MainFragment : androidx.fragment.app.Fragment(),DayItemDialog.Listener {
     private lateinit var binding: FragmentMainBinding
-    private val fListIncomeConsumption = listOf(
-        IncomeFragment.newInstance(),
-        ConsumptionFragment.newInstance()
-    )
     private val listIncCons = listOf(
         "Доходы",
         "Расходы"
     )
+    private val fListIncomeConsumption = listOf(
+        IncomeFragment.newInstance(typeItem = listIncCons[0]),
+        ConsumptionFragment.newInstance(typeItem = listIncCons[1])
+    )
+
 
     private lateinit var model:MainViewModel
 

@@ -13,7 +13,7 @@ import com.example.budgetplanningapp.presentation.viewmodels.MainViewModel
 import com.example.budgetplanningapp.presentation.viewmodels.MainViewModelFactory
 
 
-class MainActivity : AppCompatActivity(),DayItemDialog.Listener {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: DayAdapter
     private lateinit var model: MainViewModel
@@ -26,36 +26,12 @@ class MainActivity : AppCompatActivity(),DayItemDialog.Listener {
         supportFragmentManager
             .beginTransaction().replace(R.id.place_holder, MainFragment.newInstance())
             .commit()
-//        init()
-//        model.onLoadLiveData().observe(this) {
-//                //Запустится когда изменится liveDataList
-//            adapter.setList(it)
-//        }
-
-
-//    override fun onStart() {
-//        super.onStart()
-//        Log.d("MyLog", "Activity onStart")
-//
-//    }
-
-//    override fun onResume() {
-//        super.onResume()
-//        Log.d("MyLog", "Activity onResume")
-//
-//    }
-//    private fun init() {
-//
         model = ViewModelProvider(this, MainViewModelFactory(this))[MainViewModel::class.java]
-//        adapter = DayAdapter(dayItemList)
-//        binding.rcView.layoutManager = LinearLayoutManager(this)
-//        binding.rcView.adapter = adapter
-//
-//    }
-    }
-    override fun onClick(item: DayItem) {
 
-}
+    }
+//    override fun onClick(item: DayItem) {
+//
+//}
     }
 
 

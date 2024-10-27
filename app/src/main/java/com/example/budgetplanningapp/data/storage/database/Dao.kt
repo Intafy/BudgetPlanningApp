@@ -12,4 +12,5 @@ interface Dao {
     suspend fun insertItem(item:ItemStorage)
     @Query("SELECT*FROM items")
     suspend fun getAllItems(): List<ItemStorage>
+//    @Query("SELECT ")
 }

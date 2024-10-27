@@ -5,6 +5,7 @@
         <item name="windowActionBar">false</item>
         <item name="colorPrimaryVariant">@color/dark_gold</item>
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <item name="colorPrimary">@color/white</item>
     </style>
 
     <style name="Theme.BudgetPlanningApp" parent="Base.Theme.BudgetPlanningApp" />

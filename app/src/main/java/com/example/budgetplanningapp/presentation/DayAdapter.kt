@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.budgetplanningapp.R
 import com.example.budgetplanningapp.domain.models.DayItem
 
-class DayAdapter(private var listItem: ArrayList<DayItem>): RecyclerView.Adapter<DayAdapter.ItemHolder>() {
+class DayAdapter(private var listItem: ArrayList<DayItem>,private val typeItem:String): RecyclerView.Adapter<DayAdapter.ItemHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val view = LayoutInflater.from(parent.context)
@@ -22,30 +22,27 @@ class DayAdapter(private var listItem: ArrayList<DayItem>): RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+        if(typeItem =="Доходы"){
+            holder.tvDateOfDay.text = listItem[position].date
+            holder.tvTypeEntry.text=typeItem
+            holder.tvEntryValue.text = listItem[position].income.toString()
+        }else if (typeItem == "Расходы"){
+            holder.tvDateOfDay.text = listItem[position].date
+            holder.tvTypeEntry.text=typeItem
+            holder.tvEntryValue.text = listItem[position].consumption.toString()
+        }
 
-        holder.tvDateOfDay.text = listItem[position].date
-        holder.tvProfitValueOfDay.text = listItem[position].profit.toString()
     }
     class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvTypeEntry:TextView = itemView.findViewById(R.id.tvTypeEntry)
         val tvDateOfDay:TextView = itemView.findViewById(R.id.tvDateOfDay)
-        val tvProfitValueOfDay:TextView = itemView.findViewById(R.id.tvProfitValueOfDay)
+        val tvEntryValue:TextView = itemView.findViewById(R.id.tvEntryValue)
     }
     fun setList(plistItem:ArrayList<DayItem>){
         Log.d("MyLog","plisitem: $plistItem")
 
         notifyDataSetChanged()
         listItem=plistItem
-//        listItem= arrayListOf()
-//        Log.d("MyLog","listItemAfterClear: $listItem")
-//        for (i in plistItem.indices){
-//            val item = DayItem(
-//                date = plistItem[i].date,
-//                income = plistItem[i].income,
-//                consumption = plistItem[i].consumption,
-//                profit = plistItem[i].profit
-//            )
-//            listItem.add(item)
-//        }
         Log.d("MyLog","listItem: $listItem")
         notifyDataSetChanged()
     }

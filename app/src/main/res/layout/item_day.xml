@@ -24,29 +24,31 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="20202020"
-            android:textColor="@color/dark_green"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvProfitOfDay"
+            android:id="@+id/tvTypeEntry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/profit_of_day"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/tvDateOfDay"
             app:layout_constraintStart_toEndOf="@+id/tvDateOfDay"
             app:layout_constraintTop_toTopOf="@+id/tvDateOfDay" />
 
         <TextView
-            android:id="@+id/tvProfitValueOfDay"
+            android:id="@+id/tvEntryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="500"
-            app:layout_constraintBottom_toBottomOf="@+id/tvProfitOfDay"
-            app:layout_constraintStart_toEndOf="@+id/tvProfitOfDay"
-            app:layout_constraintTop_toTopOf="@+id/tvProfitOfDay" />
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTypeEntry"
+            app:layout_constraintStart_toEndOf="@+id/tvTypeEntry"
+            app:layout_constraintTop_toTopOf="@+id/tvTypeEntry" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -6,20 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
-import com.example.budgetplanningapp.databinding.FragmentConsumptionBinding
 import com.example.budgetplanningapp.databinding.FragmentIncomeBinding
-import com.example.budgetplanningapp.presentation.fragments.Choosesfragments.AllTimeFragment
-import com.example.budgetplanningapp.presentation.fragments.Choosesfragments.MonthFragment
-import com.example.budgetplanningapp.presentation.fragments.Choosesfragments.WeekFragment
+import com.example.budgetplanningapp.presentation.fragments.сhoosesfragments.AllTimeFragment
+import com.example.budgetplanningapp.presentation.fragments.сhoosesfragments.MonthFragment
+import com.example.budgetplanningapp.presentation.fragments.сhoosesfragments.WeekFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-class ConsumptionFragment : Fragment() {
+class ConsumptionFragment(private val typeItem:String) : Fragment() {
     private lateinit var binding: FragmentIncomeBinding
     private val fListChoosePeriodFragments = listOf(
-        WeekFragment.newInstance(),
-        MonthFragment.newInstance(),
-        AllTimeFragment.newInstance()
+        WeekFragment.newInstance(typeItem = typeItem),
+        MonthFragment.newInstance(typeItem=typeItem),
+        AllTimeFragment.newInstance(typeItem=typeItem)
     )
     private val listChoosePeriodName = listOf(
         "За неделю",
@@ -49,7 +48,7 @@ class ConsumptionFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance() = ConsumptionFragment()
+        fun newInstance(typeItem: String) = ConsumptionFragment(typeItem = typeItem)
 
     }
 }
