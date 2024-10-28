@@ -1,5 +1,6 @@
 package com.example.budgetplanningapp.data.repository
 
+import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +16,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Date
 
 class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemRepository {
      private  var dayItemList = listOf<DayItem>()
@@ -25,6 +31,8 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
         //Здесь из модели объекта DayItem, приходящей со слоя Domain,
         // мы информацию сохраняем в объект модели ItemStorage слоя Storage
         var result = true
+
+
             val itemStorage = ItemStorage(
                 date=dayItem.date,
                 income = dayItem.income,
@@ -43,9 +51,16 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
         itemStorageList = dayItemStorage.load()
 //        Log.d("MyLog","itemStorageList: ${itemStorageList}")
                 if(itemStorageList!=null){
+
+                var dateFromDb:LocalDate
+                val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                var formattedDate:String
+
                     for (i in itemStorageList.indices) {
+                        dateFromDb = LocalDate.parse(itemStorageList[i].date)
+                        formattedDate = formatter.format(dateFromDb)
                         val dayItem = DayItem(
-                            date = itemStorageList[i].date,
+                            date = formattedDate,
                             income = itemStorageList[i].income,
                             consumption = itemStorageList[i].consumption,
                             profit = itemStorageList[i].profit

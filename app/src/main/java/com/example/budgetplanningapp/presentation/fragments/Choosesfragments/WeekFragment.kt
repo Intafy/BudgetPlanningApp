@@ -1,4 +1,4 @@
-package com.example.budgetplanningapp.presentation.fragments.сhoosesfragments
+package com.example.budgetplanningapp.presentation.fragments.Choosesfragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

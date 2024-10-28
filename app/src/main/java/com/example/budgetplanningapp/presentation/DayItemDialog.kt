@@ -1,8 +1,7 @@
 package com.example.budgetplanningapp.presentation
 
-
 import android.os.Bundle
-import android.text.format.DateUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,7 @@ class DayItemDialog(private var listener:Listener):DialogFragment() {
     private lateinit var edInc:EditText
     private lateinit var edCon:EditText
     private lateinit var tvDate:TextView
-    private var calendarDate: Calendar = Calendar.getInstance()
+    private var calendar: Calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,11 +40,26 @@ class DayItemDialog(private var listener:Listener):DialogFragment() {
            edInc = view?.findViewById(R.id.edInc)!!
            edCon = view?.findViewById(R.id.edCon)!!
            tvDate = view?.findViewById(R.id.tvDate)!!
-           val date = DateUtils.formatDateTime(
-               context,
-               calendarDate.getTimeInMillis(),
-               DateUtils.FORMAT_SHOW_YEAR)
-           tvDate.text = date
+
+           val day = calendar.get(Calendar.DATE).toString()
+           val month = (calendar.get(Calendar.MONTH)+1).toString()
+           val year = (calendar.get(Calendar.YEAR)).toString()
+           val calendarDate = "$day.$month.$year"
+           val formattedDate = "$year-$month-$day"
+            Log.d("MyLog","date: $day")
+            Log.d("MyLog","month: $month")
+            Log.d("MyLog","year: $year")
+
+
+            //Форматируем дату с помощью форматера, чтобы проще было работать с ней потом в БД
+
+//            val localDateTime = LocalDate.parse(date)
+//            val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//            val formattedDate:String = formatter.format(localDateTime)
+
+
+            //Здесь отображаем дату в удобном для нас формате, который выбрали выше в классе календаря
+           tvDate.text = calendarDate
 
            btnOk.setOnClickListener{
 
@@ -53,7 +67,9 @@ class DayItemDialog(private var listener:Listener):DialogFragment() {
                    val inc = edInc.text.toString().toDouble()
                    val con = edCon.text.toString().toDouble()
                    val profit = inc-con
-                   val item = DayItem(date,inc,con,profit)
+                   //Здесь передаем отформатированную дату
+                   val item = DayItem(formattedDate,inc,con,profit)
+//                   Log.d("MyLog","formattedDate: $formattedDate")
                    listener.onClick(item)
                    dismiss()
                }else {

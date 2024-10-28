@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import com.example.budgetplanningapp.databinding.FragmentIncomeBinding
-import com.example.budgetplanningapp.presentation.fragments.сhoosesfragments.AllTimeFragment
-import com.example.budgetplanningapp.presentation.fragments.сhoosesfragments.MonthFragment
-import com.example.budgetplanningapp.presentation.fragments.сhoosesfragments.WeekFragment
+import com.example.budgetplanningapp.presentation.fragments.Choosesfragments.AllTimeFragment
+import com.example.budgetplanningapp.presentation.fragments.Choosesfragments.MonthFragment
+import com.example.budgetplanningapp.presentation.fragments.Choosesfragments.WeekFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 

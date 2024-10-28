@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey_alpha_1"
-    tools:context=".presentation.fragments.сhoosesfragments.MonthFragment">
+    tools:context=".presentation.fragments.Choosesfragments.MonthFragment">
 
     <TextView
         android:id="@+id/textView4"

@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.budgetplanningapp.R
 import com.example.budgetplanningapp.domain.models.DayItem
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class DayAdapter(private var listItem: ArrayList<DayItem>,private val typeItem:String): RecyclerView.Adapter<DayAdapter.ItemHolder>() {
 
@@ -22,12 +24,12 @@ class DayAdapter(private var listItem: ArrayList<DayItem>,private val typeItem:S
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+
+        holder.tvDateOfDay.text = listItem[position].date
         if(typeItem =="Доходы"){
-            holder.tvDateOfDay.text = listItem[position].date
             holder.tvTypeEntry.text=typeItem
             holder.tvEntryValue.text = listItem[position].income.toString()
         }else if (typeItem == "Расходы"){
-            holder.tvDateOfDay.text = listItem[position].date
             holder.tvTypeEntry.text=typeItem
             holder.tvEntryValue.text = listItem[position].consumption.toString()
         }
@@ -47,3 +49,5 @@ class DayAdapter(private var listItem: ArrayList<DayItem>,private val typeItem:S
         notifyDataSetChanged()
     }
 }
+
+
