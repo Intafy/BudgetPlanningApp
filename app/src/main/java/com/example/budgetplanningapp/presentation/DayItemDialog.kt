@@ -22,7 +22,8 @@ class DayItemDialog(private var listener:Listener):DialogFragment() {
     private lateinit var edCon:EditText
     private lateinit var tvDate:TextView
     private var calendar: Calendar = Calendar.getInstance()
-
+    lateinit var calendarDate:String
+    lateinit var formattedDate:String
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,32 +36,13 @@ class DayItemDialog(private var listener:Listener):DialogFragment() {
         super.onStart()
         val viewDialog=view
         if(viewDialog!=null){
+           onFormattedDate()
            btnOk= view?.findViewById(R.id.btnOk)!!
            btnClear = view?.findViewById(R.id.btnClear)!!
            edInc = view?.findViewById(R.id.edInc)!!
            edCon = view?.findViewById(R.id.edCon)!!
            tvDate = view?.findViewById(R.id.tvDate)!!
-
-           val day = calendar.get(Calendar.DATE).toString()
-           val month = (calendar.get(Calendar.MONTH)+1).toString()
-           val year = (calendar.get(Calendar.YEAR)).toString()
-           val calendarDate = "$day.$month.$year"
-           val formattedDate = "$year-$month-$day"
-            Log.d("MyLog","date: $day")
-            Log.d("MyLog","month: $month")
-            Log.d("MyLog","year: $year")
-
-
-            //Форматируем дату с помощью форматера, чтобы проще было работать с ней потом в БД
-
-//            val localDateTime = LocalDate.parse(date)
-//            val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-//            val formattedDate:String = formatter.format(localDateTime)
-
-
-            //Здесь отображаем дату в удобном для нас формате, который выбрали выше в классе календаря
            tvDate.text = calendarDate
-
            btnOk.setOnClickListener{
 
                if(edInc.text.toString()!=""&&edCon.text.toString()!=""){
@@ -84,6 +66,19 @@ class DayItemDialog(private var listener:Listener):DialogFragment() {
            }
 
         }
+    }
+    //Получаем значение дня, месяца и года из календаря на текущий день
+//и преобразуем ее в формат для отображения в заголовке диалогового окна
+//и для отправки в БД соответственно
+    private fun onFormattedDate(){
+        val day = calendar.get(Calendar.DATE).toString()
+        val month = (calendar.get(Calendar.MONTH)+1).toString()
+        val year = (calendar.get(Calendar.YEAR)).toString()
+        calendarDate = "$day.$month.$year"
+        formattedDate = "$year-$month-$day"
+        Log.d("MyLog","date: $day")
+        Log.d("MyLog","month: $month")
+        Log.d("MyLog","year: $year")
     }
 
     interface Listener{
