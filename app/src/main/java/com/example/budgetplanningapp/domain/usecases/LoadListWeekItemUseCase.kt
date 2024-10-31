@@ -6,6 +6,6 @@ import com.example.budgetplanningapp.domain.repository.DayItemRepository
 class LoadListWeekItemUseCase(private val dayItemRepository: DayItemRepository) {
     suspend fun execute(): List<DayItem> {
 
-        return dayItemRepository.loadWeekItems()
+        return dayItemRepository.loadWeekItemsFromDb()
     }
 }

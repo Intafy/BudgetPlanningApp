@@ -9,17 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.budgetplanningapp.databinding.FragmentPeriodBinding
-
 import com.example.budgetplanningapp.domain.models.DayItem
 import com.example.budgetplanningapp.presentation.DayAdapter
 import com.example.budgetplanningapp.presentation.viewmodels.MainViewModel
-
 
 class WeekFragment(private val typeItem:String) : Fragment() {
     private lateinit var binding: FragmentPeriodBinding
     private lateinit var adapter: DayAdapter
     private lateinit var model: MainViewModel
-
     private val dayItemList: ArrayList<DayItem> = arrayListOf()
 
     override fun onCreateView(
@@ -52,6 +49,4 @@ class WeekFragment(private val typeItem:String) : Fragment() {
     companion object{
         fun newInstance(typeItem: String) = WeekFragment(typeItem = typeItem)
     }
-
-
 }

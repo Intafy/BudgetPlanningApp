@@ -10,8 +10,11 @@ import java.sql.Timestamp
 interface Dao {
     @Insert
     suspend fun insertItem(item:ItemStorage)
-    @Query("SELECT*FROM items")
+
+    @Query("SELECT*FROM items ORDER BY DATE ASC")
     suspend fun getAllItems(): List<ItemStorage>
-    @Query("SELECT*FROM items WHERE DATE() >= DATE('now','weekday','-7 days')")
+
+//    @Query("SELECT*FROM items WHERE DATE() >= DATE('now','weekday','-7 days')")
+    @Query("SELECT*FROM items order by date desc")
     suspend fun getWeekItems():List<ItemStorage>
 }

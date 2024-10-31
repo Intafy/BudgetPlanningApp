@@ -9,9 +9,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemRepository {
-     private  var dayItemList = listOf<DayItem>()
-     private lateinit var itemStorageList:List<ItemStorage>
-     private var tempDayItemList = ArrayList<DayItem>()
+    private  var dayItemList = listOf<DayItem>()
 
     override suspend fun saveDayItemToDb(dayItem: DayItem): Boolean {
         //Здесь из модели объекта DayItem, приходящей со слоя Domain,
@@ -30,18 +28,16 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
         return result
     }
 
-    override suspend fun loadDayItemListFromDb(): List<DayItem> {
+    override suspend fun loadAllItemFromDb(): List<DayItem> {
+        val tempAllItemList = ArrayList<DayItem>()
         //Здесь из списка объектов модели ItemStorage , приходящей со слоя Storage,
         // мы информацию сохраняем в список объектов модели DayItem слоя Domain
+        var itemStorageList:List<ItemStorage> = dayItemStorage.load()
 
-        itemStorageList = dayItemStorage.load()
-//        Log.d("MyLog","itemStorageList: ${itemStorageList}")
-                if(itemStorageList!=null){
-
+        if(itemStorageList!=null){
                 var dateFromDb:LocalDate
                 val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                 var formattedDate:String
-
                     for (i in itemStorageList.indices) {
                         dateFromDb = LocalDate.parse(itemStorageList[i].date)
                         formattedDate = formatter.format(dateFromDb)
@@ -51,35 +47,35 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
                             consumption = itemStorageList[i].consumption,
                             profit = itemStorageList[i].profit
                         )
-                        tempDayItemList.add(dayItem)
+                        tempAllItemList.add(dayItem)
                     }
                 }
-            dayItemList = tempDayItemList
+            dayItemList = tempAllItemList
+            Log.d("MyLog","tempDayItemList: ${tempAllItemList}")
         return dayItemList
     }
 
-    override suspend fun loadWeekItems(): List<DayItem> {
-        itemStorageList = dayItemStorage.loadWeekItems()
-        if(itemStorageList!=null){
-
+    override suspend fun loadWeekItemsFromDb(): List<DayItem> {
+        val itemStorageWeekList:List<ItemStorage> = dayItemStorage.loadWeekItemsFromDb()
+        val tempWeekItemList = ArrayList<DayItem>()
+        if(itemStorageWeekList!=null){
             var dateFromDb:LocalDate
             val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
             var formattedDate:String
-
-            for (i in itemStorageList.indices) {
-                dateFromDb = LocalDate.parse(itemStorageList[i].date)
+            for (i in itemStorageWeekList.indices) {
+                dateFromDb = LocalDate.parse(itemStorageWeekList[i].date)
                 formattedDate = formatter.format(dateFromDb)
                 val dayItem = DayItem(
                     date = formattedDate,
-                    income = itemStorageList[i].income,
-                    consumption = itemStorageList[i].consumption,
-                    profit = itemStorageList[i].profit
+                    income = itemStorageWeekList[i].income,
+                    consumption = itemStorageWeekList[i].consumption,
+                    profit = itemStorageWeekList[i].profit
                 )
-                tempDayItemList.add(dayItem)
+                tempWeekItemList.add(dayItem)
             }
         }
-        dayItemList = tempDayItemList
+        Log.d("MyLog","tempDayItemListWeek: ${tempWeekItemList}")
+        dayItemList = tempWeekItemList
         return dayItemList
     }
-
 }

@@ -82,9 +82,9 @@ class DayItemDialog(private var listener:Listener):DialogFragment() {
                     calendar.set(Calendar.YEAR, year)
                     calendar.set(Calendar.MONTH, monthOfYear)
                     calendar.set(Calendar.DATE, dayOfMonth)
-                    calendarDate=String.format("%02d.%02d.%04d",dayOfMonth,monthOfYear,year)
+                    calendarDate=String.format("%02d.%02d.%04d",dayOfMonth,monthOfYear+1,year)
                     model.onSaveChosenDay(calendarDate)
-                    formattedDate = String.format("%04d-%02d-%02d",year,monthOfYear,dayOfMonth)
+                    formattedDate = String.format("%04d-%02d-%02d",year,monthOfYear+1,dayOfMonth)
                 }
             btnCalendar.setOnClickListener {
                 context?.let { it1 ->

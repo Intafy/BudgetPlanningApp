@@ -13,31 +13,35 @@ import com.example.budgetplanningapp.domain.usecases.SaveDayItemUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class MainViewModel(
     private val loadListAllItemUseCase: LoadListAllItemUseCase,
     private val saveDayItemUseCase: SaveDayItemUseCase,
     private val loadListWeekItemUseCase: LoadListWeekItemUseCase
 ) :ViewModel() {
     // Создаем LiveData, которая будет хранить список полученных DayItem и присваиваем ей пустой список
-     private var liveDataAllList = MutableLiveData<ArrayList<DayItem>>()
-     private var liveDataWeekList = MutableLiveData<ArrayList<DayItem>>()
-     private var liveDataChosenDay = MutableLiveData<String>()
+    private var liveDataAllList = MutableLiveData<ArrayList<DayItem>>()
+    private var liveDataWeekList = MutableLiveData<ArrayList<DayItem>>()
+    private var liveDataChosenDay = MutableLiveData<String>()
     // В блоке init запускаем функцию чтения с базы данных всех Item
-        init{
-        onGetAllFromDb()
+    init{
+        liveDataWeekList.value?.clear()
         onGetWeekItemFromDB()
+        liveDataAllList.value?.clear()
+        onGetAllFromDb()
         Log.d("MyLog","VM created")
     }
 //    Записываем в LiveData значение списка, полученного из БД
     private fun onGetAllFromDb(){
         viewModelScope.launch{
             liveDataAllList.value=loadListAllItemUseCase.execute() as ArrayList
+            Log.d("MyLog","liveDataAllList: ${liveDataAllList.value}")
         }
     }
     private fun onGetWeekItemFromDB(){
         viewModelScope.launch {
             liveDataWeekList.value=loadListWeekItemUseCase.execute() as ArrayList
+            Log.d("MyLog","liveDataWeekList: ${liveDataWeekList.value}")
+
         }
     }
     //Здесь сохраняем дату, полученную с календаря

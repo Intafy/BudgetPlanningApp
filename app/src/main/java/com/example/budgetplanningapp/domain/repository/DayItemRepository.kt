@@ -7,8 +7,7 @@ import com.example.budgetplanningapp.domain.models.DayItem
 interface DayItemRepository {
 
      suspend fun saveDayItemToDb(dayItem: DayItem):Boolean
-
-     suspend fun loadDayItemListFromDb(): List<DayItem>
-     suspend fun loadWeekItems():List<DayItem>
+     suspend fun loadAllItemFromDb(): List<DayItem>
+     suspend fun loadWeekItemsFromDb():List<DayItem>
 
 }

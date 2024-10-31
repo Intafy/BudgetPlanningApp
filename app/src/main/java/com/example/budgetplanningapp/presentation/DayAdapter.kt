@@ -43,10 +43,10 @@ class DayAdapter(private var listItem: ArrayList<DayItem>,private val typeItem:S
     fun setList(plistItem:ArrayList<DayItem>){
         Log.d("MyLog","plisitem: $plistItem")
 
-        notifyDataSetChanged()
         listItem=plistItem
         Log.d("MyLog","listItem: $listItem")
         notifyDataSetChanged()
+
     }
 }
 

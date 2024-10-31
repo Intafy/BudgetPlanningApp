@@ -21,7 +21,7 @@ class DbDayItemStorage(context:Context): DayItemStorage {
         return mainDb.getDao().getAllItems()
         }
 
-    override suspend fun loadWeekItems(): List<ItemStorage> {
+    override suspend fun loadWeekItemsFromDb(): List<ItemStorage> {
         return mainDb.getDao().getWeekItems()
     }
 }

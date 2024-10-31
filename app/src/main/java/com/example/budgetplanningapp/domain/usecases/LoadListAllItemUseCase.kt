@@ -7,7 +7,7 @@ class LoadListAllItemUseCase(private val dayItemRepository: DayItemRepository) {
 
     suspend fun execute(): List<DayItem> {
 
-        return dayItemRepository.loadDayItemListFromDb()
+        return dayItemRepository.loadAllItemFromDb()
     }
 
 }
