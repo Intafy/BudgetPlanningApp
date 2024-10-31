@@ -9,5 +9,6 @@ interface DayItemRepository {
      suspend fun saveDayItemToDb(dayItem: DayItem):Boolean
 
      suspend fun loadDayItemListFromDb(): List<DayItem>
+     suspend fun loadWeekItems():List<DayItem>
 
 }

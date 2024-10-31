@@ -1,6 +1,7 @@
 package com.example.budgetplanningapp.presentation.fragments.Choosesfragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,7 @@ class AllTimeFragment(private val typeItem:String) : Fragment() {
         model = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         model.onLoadLiveData().observe(viewLifecycleOwner) {
             //Запустится когда изменится liveDataList
+            Log.d("MyLog","observeAll: $it")
             adapter.setList(it)
         }
 

@@ -7,6 +7,14 @@
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <item name="colorPrimary">@color/white</item>
     </style>
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+
+        <item name="colorAccent">@color/gold</item>
+        <item name="android:textColor">@color/gold</item>
+<!--        <item name="colorPrimary">@color/dark_grey</item>-->
+<!--        <item name="colorButtonNormal">@color/dark_grey</item>-->
+<!--        <item name="android:colorBackground">@color/dark_grey</item>-->
+    </style>
 
     <style name="Theme.BudgetPlanningApp" parent="Base.Theme.BudgetPlanningApp" />
 

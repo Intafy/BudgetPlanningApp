@@ -1,6 +1,7 @@
 package com.example.budgetplanningapp.presentation.fragments.Choosesfragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,10 +35,11 @@ class WeekFragment(private val typeItem:String) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         model = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-//        model.onLoadLiveData().observe(this) {
-//                //Запустится когда изменится liveDataList
-//            adapter.setList(it)
-//        }
+        model.onLoadWeekLiveData().observe(viewLifecycleOwner) {
+                //Запустится когда изменится liveDataList
+            Log.d("MyLog","observeWeek: $it")
+            adapter.setList(it)
+        }
 
     }
 
