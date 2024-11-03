@@ -6,22 +6,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.budgetplanningapp.databinding.FragmentMainBinding
-import com.example.budgetplanningapp.domain.models.DayItem
-import com.example.budgetplanningapp.presentation.DayItemDialog
 import com.example.budgetplanningapp.presentation.viewmodels.MainViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-class MainFragment : androidx.fragment.app.Fragment(),DayItemDialog.Listener {
+class MainFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentMainBinding
     private val listIncCons = listOf(
         "Доходы",
         "Расходы"
     )
-    private val fListIncomeConsumption = listOf(
+    private val fListIncomeConsumption:List<Fragment> = listOf(
         IncomeFragment.newInstance(typeItem = listIncCons[0]),
         ConsumptionFragment.newInstance(typeItem = listIncCons[1])
     )
@@ -40,10 +39,10 @@ class MainFragment : androidx.fragment.app.Fragment(),DayItemDialog.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        binding.btnAdd.setOnClickListener {
-            val itemDialog = DayItemDialog(this)
-            itemDialog.show(childFragmentManager, "itemDialog")
-        }
+//        binding.btnAdd.setOnClickListener {
+//            val itemDialog = DayItemDialog(this)
+//            itemDialog.show(childFragmentManager, "itemDialog")
+//        }
         Log.d("MyLog", "Activity created")
     }
 
@@ -63,10 +62,10 @@ class MainFragment : androidx.fragment.app.Fragment(),DayItemDialog.Listener {
         fun newInstance() = MainFragment()
     }
 
-    override fun onClick(item: DayItem) {
-
-        model.onSaveItemToDb(item)
-        Log.d("MyLog","Запись добавлена")
-
-    }
+//    override fun onClick(item: DayItem) {
+//
+//        model.onSaveItemToDb(item)
+//        Log.d("MyLog","Запись добавлена")
+//
+//    }
 }

@@ -16,7 +16,6 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
         // мы информацию сохраняем в объект модели ItemStorage слоя Storage
         var result = true
 
-
             val itemStorage = ItemStorage(
                 date=dayItem.date,
                 income = dayItem.income,
@@ -51,7 +50,7 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
                     }
                 }
             dayItemList = tempAllItemList
-            Log.d("MyLog","tempDayItemList: ${tempAllItemList}")
+            Log.d("MyLog","tempDayItemList: $tempAllItemList")
         return dayItemList
     }
 
@@ -74,8 +73,34 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
                 tempWeekItemList.add(dayItem)
             }
         }
-        Log.d("MyLog","tempDayItemListWeek: ${tempWeekItemList}")
+        Log.d("MyLog","tempDayItemListWeek: $tempWeekItemList")
         dayItemList = tempWeekItemList
         return dayItemList
     }
+
+    override suspend fun loadMonthItemsFromDb(): List<DayItem> {
+        val itemStorageMonthList:List<ItemStorage> = dayItemStorage.loadMonthItemsFromDb()
+        val tempMonthItemList = ArrayList<DayItem>()
+        if(itemStorageMonthList!=null){
+            var dateFromDb:LocalDate
+            val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+            var formattedDate:String
+            for (i in itemStorageMonthList.indices) {
+                dateFromDb = LocalDate.parse(itemStorageMonthList[i].date)
+                formattedDate = formatter.format(dateFromDb)
+                val dayItem = DayItem(
+                    date = formattedDate,
+                    income = itemStorageMonthList[i].income,
+                    consumption = itemStorageMonthList[i].consumption,
+                    profit = itemStorageMonthList[i].profit
+                )
+                tempMonthItemList.add(dayItem)
+            }
+        }
+        Log.d("MyLog","tempDayItemListWeek: $tempMonthItemList")
+        dayItemList = tempMonthItemList
+        return dayItemList
+    }
+
+
 }

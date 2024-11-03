@@ -1,7 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.BudgetPlanningApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimaryVariant">@color/dark_gold</item>
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <item name="colorPrimary">@color/white</item>
     </style>
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+
+        <item name="colorAccent">@color/dark_grey</item>
+        <item name="android:textColor">@color/gold</item>
+        <!--        <item name="colorPrimary">@color/dark_green</item>-->
+        <item name="colorButtonNormal">@color/dark_grey</item>
+        <item name="android:windowBackground">@color/gold</item>
+    </style>
+
+    <style name="Theme.BudgetPlanningApp" parent="Base.Theme.BudgetPlanningApp" />
+
 </resources>

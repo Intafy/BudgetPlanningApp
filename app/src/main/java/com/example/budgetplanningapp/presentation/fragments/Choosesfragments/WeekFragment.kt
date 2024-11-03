@@ -37,7 +37,6 @@ class WeekFragment(private val typeItem:String) : Fragment() {
             Log.d("MyLog","observeWeek: $it")
             adapter.setList(it)
         }
-
     }
 
     private fun init(){
@@ -46,6 +45,7 @@ class WeekFragment(private val typeItem:String) : Fragment() {
         binding.rcIncomeConsum.layoutManager = LinearLayoutManager(requireActivity())
         binding.rcIncomeConsum.adapter = adapter
     }
+
     companion object{
         fun newInstance(typeItem: String) = WeekFragment(typeItem = typeItem)
     }

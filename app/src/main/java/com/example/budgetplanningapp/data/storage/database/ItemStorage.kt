@@ -1,11 +1,8 @@
 package com.example.budgetplanningapp.data.storage.database
 
-
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
-
 
 @Entity(tableName = "items")
 data class ItemStorage(

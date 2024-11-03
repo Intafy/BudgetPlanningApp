@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.budgetplanningapp.domain.models.DayItem
 import com.example.budgetplanningapp.domain.usecases.LoadListAllItemUseCase
+import com.example.budgetplanningapp.domain.usecases.LoadListMonthItemUseCase
 import com.example.budgetplanningapp.domain.usecases.LoadListWeekItemUseCase
 import com.example.budgetplanningapp.domain.usecases.SaveDayItemUseCase
 import kotlinx.coroutines.Dispatchers
@@ -16,11 +17,13 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val loadListAllItemUseCase: LoadListAllItemUseCase,
     private val saveDayItemUseCase: SaveDayItemUseCase,
-    private val loadListWeekItemUseCase: LoadListWeekItemUseCase
+    private val loadListWeekItemUseCase: LoadListWeekItemUseCase,
+    private val loadListMonthItemUseCase: LoadListMonthItemUseCase
 ) :ViewModel() {
     // Создаем LiveData, которая будет хранить список полученных DayItem и присваиваем ей пустой список
     private var liveDataAllList = MutableLiveData<ArrayList<DayItem>>()
     private var liveDataWeekList = MutableLiveData<ArrayList<DayItem>>()
+    private var liveDataMonthList = MutableLiveData<ArrayList<DayItem>>()
     private var liveDataChosenDay = MutableLiveData<String>()
     // В блоке init запускаем функцию чтения с базы данных всех Item
     init{
@@ -28,6 +31,8 @@ class MainViewModel(
         onGetWeekItemFromDB()
         liveDataAllList.value?.clear()
         onGetAllFromDb()
+        liveDataMonthList.value?.clear()
+        onGetMonthItemFromDB()
         Log.d("MyLog","VM created")
     }
 //    Записываем в LiveData значение списка, полученного из БД
@@ -44,6 +49,13 @@ class MainViewModel(
 
         }
     }
+    private fun onGetMonthItemFromDB(){
+        viewModelScope.launch {
+            liveDataMonthList.value=loadListMonthItemUseCase.execute() as ArrayList
+            Log.d("MyLog","liveDataWeekList: ${liveDataMonthList.value}")
+
+        }
+    }
     //Здесь сохраняем дату, полученную с календаря
     fun onSaveChosenDay(chosenDay:String){
         liveDataChosenDay.value = chosenDay
@@ -54,6 +66,9 @@ class MainViewModel(
     }
     fun onLoadWeekLiveData():LiveData<ArrayList<DayItem>>{
         return liveDataWeekList
+    }
+    fun onLoadMonthLiveData():LiveData<ArrayList<DayItem>>{
+        return liveDataMonthList
     }
     //Возвращает значение дня, выбранного в календаре
     fun onLoadChosenDay():LiveData<String>{

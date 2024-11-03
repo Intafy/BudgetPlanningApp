@@ -8,8 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.budgetplanningapp.R
 import com.example.budgetplanningapp.domain.models.DayItem
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class DayAdapter(private var listItem: ArrayList<DayItem>,private val typeItem:String): RecyclerView.Adapter<DayAdapter.ItemHolder>() {
 
@@ -24,7 +22,6 @@ class DayAdapter(private var listItem: ArrayList<DayItem>,private val typeItem:S
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-
         holder.tvDateOfDay.text = listItem[position].date
         if(typeItem =="Доходы"){
             holder.tvTypeEntry.text=typeItem
@@ -33,7 +30,20 @@ class DayAdapter(private var listItem: ArrayList<DayItem>,private val typeItem:S
             holder.tvTypeEntry.text=typeItem
             holder.tvEntryValue.text = listItem[position].consumption.toString()
         }
-
+//        if(typeItem =="Доходы"){
+//            if(listItem[position].income!=0.0) {
+//                holder.tvDateOfDay.text = listItem[position].date
+//                holder.tvTypeEntry.text=typeItem
+//                holder.tvEntryValue.text = listItem[position].income.toString()
+//            }
+//        }
+//        if(typeItem == "Расходы") {
+//            if(listItem[position].consumption!=0.0){
+//                holder.tvDateOfDay.text = listItem[position].date
+//                holder.tvTypeEntry.text=typeItem
+//                holder.tvEntryValue.text = listItem[position].consumption.toString()
+//            }
+//        }
     }
     class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTypeEntry:TextView = itemView.findViewById(R.id.tvTypeEntry)

@@ -20,7 +20,7 @@ class MonthFragment(private val typeItem:String): Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentPeriodBinding.inflate(inflater,container,false)
         return binding.root
@@ -29,10 +29,10 @@ class MonthFragment(private val typeItem:String): Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         model = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-//        model.onLoadLiveData().observe(this) {
-//            //Запустится когда изменится liveDataList
-//            adapter.setList(it)
-//        }
+        model.onLoadMonthLiveData().observe(viewLifecycleOwner) {
+            //Запустится когда изменится liveDataList
+            adapter.setList(it)
+        }
     }private fun init(){
         adapter = DayAdapter(dayItemList,typeItem)
         binding.tvIncCon.text = typeItem
@@ -41,7 +41,6 @@ class MonthFragment(private val typeItem:String): Fragment() {
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance(typeItem:String) = MonthFragment(typeItem=typeItem)
     }

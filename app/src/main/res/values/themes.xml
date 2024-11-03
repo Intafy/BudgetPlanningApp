@@ -9,11 +9,11 @@
     </style>
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
 
-        <item name="colorAccent">@color/gold</item>
+        <item name="colorAccent">@color/dark_grey</item>
         <item name="android:textColor">@color/gold</item>
-<!--        <item name="colorPrimary">@color/dark_grey</item>-->
-<!--        <item name="colorButtonNormal">@color/dark_grey</item>-->
-<!--        <item name="android:colorBackground">@color/dark_grey</item>-->
+<!--        <item name="colorPrimary">@color/dark_green</item>-->
+        <item name="colorButtonNormal">@color/dark_grey</item>
+        <item name="android:windowBackground">@color/gold</item>
     </style>
 
     <style name="Theme.BudgetPlanningApp" parent="Base.Theme.BudgetPlanningApp" />
