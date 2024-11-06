@@ -27,8 +27,6 @@ class DayItemDialog(private var listener:Listener,private  val typeItem:String):
     private var calendar: Calendar = Calendar.getInstance()
     private lateinit var calendarDate: String
     private lateinit var formattedDate: String
-    private val typeItemInc = "Доходы"
-    private val typeItemCons = "Расходы"
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,48 +34,36 @@ class DayItemDialog(private var listener:Listener,private  val typeItem:String):
     ): View? {
         return inflater.inflate(R.layout.item_dialog, container, false)
     }
-
+    private fun init(){
+        edIncCon = view?.findViewById(R.id.edIncCon)!!
+        model = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        btnOk = view?.findViewById(R.id.btnOk)!!
+        btnClear = view?.findViewById(R.id.btnClear)!!
+        btnCalendar = view?.findViewById(R.id.btnCalendar)!!
+        tvDate = view?.findViewById(R.id.tvDate)!!
+    }
     override fun onStart() {
         super.onStart()
         val viewDialog = view
         if (viewDialog != null) {
-            edIncCon = view?.findViewById(R.id.edIncCon)!!
-            onFormattedDate(typeItem)
-            model = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-            btnOk = view?.findViewById(R.id.btnOk)!!
-            btnClear = view?.findViewById(R.id.btnClear)!!
-            btnCalendar = view?.findViewById(R.id.btnCalendar)!!
-            tvDate = view?.findViewById(R.id.tvDate)!!
-            tvDate.text = calendarDate
+            init()
+            onFormattedDate()
 
             btnOk.setOnClickListener {
-                if (typeItem == typeItemInc) {
-                    if (edIncCon.text.toString() != "") {
-                        val inc = edIncCon.text.toString().toDouble()
-                        val con = 0.0
-                        val profit = inc - con
-                        val item = DayItem(formattedDate, inc, con, profit)
-                        listener.onClick(item)
-                        dismiss()
-                    } else if (edIncCon.text.toString() == "") edIncCon.setHint(R.string.inc_value)
-                }
-                if (typeItem == typeItemCons){
-                    edIncCon.setHint(R.string.con_value)
-                    if (edIncCon.text.toString() != "") {
-                        val inc = 0.0
-                        val con = edIncCon.text.toString().toDouble()
-                        val profit = inc - con
-                        //Здесь передаем отформатированную дату
-                        val item = DayItem(formattedDate, inc, con, profit)
-                        listener.onClick(item)
-                        dismiss()
-                    } else if (edIncCon.text.toString() == "") edIncCon.setHint(R.string.con_value)
+                if (edIncCon.text.toString() == "") edIncCon.setHint(R.string.enter_value)
+                else{
+                    val incCon = edIncCon.text.toString().toDouble()
+                    val item = DayItem(
+                        date=formattedDate,
+                        incomeConsumption = incCon,
+                        typeItem = typeItem)
+                    listener.onClick(item)
+                    dismiss()
                 }
             }
 
             btnClear.setOnClickListener {
                edIncCon.setText("")
-
             }
 
             model.onLoadChosenDay().observe(viewLifecycleOwner) {
@@ -112,14 +98,14 @@ class DayItemDialog(private var listener:Listener,private  val typeItem:String):
     //Получаем значение дня, месяца и года из календаря на текущий день
     //и преобразуем ее в формат для отображения в заголовке диалогового окна
     //и для отправки в БД соответственно
-    private fun onFormattedDate(typeItem: String) {
-        if (typeItem == typeItemInc)edIncCon.setHint(R.string.inc_value)
-        if (typeItem == typeItemCons)edIncCon.setHint(R.string.con_value)
+    private fun onFormattedDate() {
+        edIncCon.setHint(R.string.enter_value)
         val day = calendar.get(Calendar.DATE)
         val month = (calendar.get(Calendar.MONTH))
         val year = (calendar.get(Calendar.YEAR))
         calendarDate = String.format("%02d.%02d.%04d", day, month + 1, year)
         formattedDate = String.format("%04d-%02d-%02d", year, month + 1, day)
+        tvDate.text = calendarDate
         Log.d("MyLog", "date: $day")
         Log.d("MyLog", "month: $month")
         Log.d("MyLog", "year: $year")

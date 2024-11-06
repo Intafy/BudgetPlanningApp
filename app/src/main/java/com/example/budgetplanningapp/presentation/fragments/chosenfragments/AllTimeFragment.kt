@@ -1,6 +1,7 @@
-package com.example.budgetplanningapp.presentation.fragments.Choosesfragments
+package com.example.budgetplanningapp.presentation.fragments.chosenfragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +13,13 @@ import com.example.budgetplanningapp.domain.models.DayItem
 import com.example.budgetplanningapp.presentation.DayAdapter
 import com.example.budgetplanningapp.presentation.viewmodels.MainViewModel
 
-class MonthFragment(private val typeItem:String): Fragment() {
+class AllTimeFragment(private val typeItem:String) : Fragment() {
+
     private lateinit var binding: FragmentPeriodBinding
     private lateinit var adapter: DayAdapter
     private lateinit var model: MainViewModel
     private val dayItemList: ArrayList<DayItem> = arrayListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,16 +27,37 @@ class MonthFragment(private val typeItem:String): Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentPeriodBinding.inflate(inflater,container,false)
         return binding.root
+
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
         model = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        model.onLoadMonthLiveData().observe(viewLifecycleOwner) {
-            //Запустится когда изменится liveDataList
-            adapter.setList(it)
+        if(typeItem=="Доходы"){
+            model.onLoadAllIncLiveData().observe(viewLifecycleOwner){
+                //Запустится когда изменится liveDataList
+                Log.d("MyLog","observeIncAll: $it")
+                adapter.setList(it)
+            }
         }
-    }private fun init(){
+        else {
+            if(typeItem=="Расходы") {
+                model.onLoadAllConsLivedata().observe(viewLifecycleOwner) {
+                    //Запустится когда изменится liveDataList
+                    Log.d("MyLog", "observeConsAll: $it")
+                    adapter.setList(it)
+                }
+            }
+        }
+
+//        model.onLoadAllLiveData().observe(viewLifecycleOwner) {
+//            //Запустится когда изменится liveDataList
+//            Log.d("MyLog","observeAll: $it")
+//            adapter.setList(it)
+//        }
+
+    }
+    private fun init(){
         adapter = DayAdapter(dayItemList,typeItem)
         binding.tvIncCon.text = typeItem
         binding.rcIncomeConsum.layoutManager = LinearLayoutManager(requireActivity())
@@ -42,6 +66,6 @@ class MonthFragment(private val typeItem:String): Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(typeItem:String) = MonthFragment(typeItem=typeItem)
+        fun newInstance(typeItem:String) = AllTimeFragment(typeItem=typeItem)
     }
 }

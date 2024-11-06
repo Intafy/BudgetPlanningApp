@@ -18,89 +18,69 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
 
             val itemStorage = ItemStorage(
                 date=dayItem.date,
-                income = dayItem.income,
-                consumption = dayItem.consumption,
-                profit = dayItem.profit
+                incomeConsumption = dayItem.incomeConsumption,
+                typeItem = dayItem.typeItem
             )
             Log.d("MyLog", "CoroutineScopeSave is running")
             result = dayItemStorage.save(itemStorage)
         return result
     }
 
-    override suspend fun loadAllItemFromDb(): List<DayItem> {
-        val tempAllItemList = ArrayList<DayItem>()
+    override suspend fun loadAllIncItemFromDb(): List<DayItem> {
+        var itemStorageList:List<ItemStorage> = dayItemStorage.loadAllIncItem()
+        dayItemList = onFormattedItem(itemStorageList)
+        return dayItemList
+    }
+
+    override suspend fun loadAllConsItemFromDb(): List<DayItem> {
+        var itemStorageList:List<ItemStorage> = dayItemStorage.loadAllConsItem()
+        dayItemList = onFormattedItem(itemStorageList)
+        return dayItemList
+    }
+
+    override suspend fun loadWeekIncItemFromDb(): List<DayItem> {
+        val itemStorageWeekList:List<ItemStorage> = dayItemStorage.loadWeekIncItemFromDb()
+        dayItemList = onFormattedItem(itemStorageWeekList)
+        return dayItemList
+    }
+
+    override suspend fun loadWeekConsItemFromDb(): List<DayItem> {
+        val itemStorageWeekList:List<ItemStorage> = dayItemStorage.loadWeekConsItemFromDb()
+        dayItemList = onFormattedItem(itemStorageWeekList)
+        return dayItemList
+    }
+
+    override suspend fun loadMonthIncItemFromDb(): List<DayItem> {
+        val itemStorageMonthList:List<ItemStorage> = dayItemStorage.loadMonthIncItemFromDb()
+        dayItemList = onFormattedItem(itemStorageMonthList)
+        return dayItemList
+    }
+
+    override suspend fun loadMonthConsItemFromDb(): List<DayItem> {
+        val itemStorageMonthList:List<ItemStorage> = dayItemStorage.loadMonthConsItemFromDb()
+        dayItemList = onFormattedItem(itemStorageMonthList)
+        return dayItemList
+    }
+
+    private fun onFormattedItem(itemStorageList: List<ItemStorage>):ArrayList<DayItem>{
         //Здесь из списка объектов модели ItemStorage , приходящей со слоя Storage,
         // мы информацию сохраняем в список объектов модели DayItem слоя Domain
-        var itemStorageList:List<ItemStorage> = dayItemStorage.load()
-
+        val tempAllItemList = ArrayList<DayItem>()
         if(itemStorageList!=null){
-                var dateFromDb:LocalDate
-                val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-                var formattedDate:String
-                    for (i in itemStorageList.indices) {
-                        dateFromDb = LocalDate.parse(itemStorageList[i].date)
-                        formattedDate = formatter.format(dateFromDb)
-                        val dayItem = DayItem(
-                            date = formattedDate,
-                            income = itemStorageList[i].income,
-                            consumption = itemStorageList[i].consumption,
-                            profit = itemStorageList[i].profit
-                        )
-                        tempAllItemList.add(dayItem)
-                    }
-                }
-            dayItemList = tempAllItemList
-            Log.d("MyLog","tempDayItemList: $tempAllItemList")
-        return dayItemList
-    }
-
-    override suspend fun loadWeekItemsFromDb(): List<DayItem> {
-        val itemStorageWeekList:List<ItemStorage> = dayItemStorage.loadWeekItemsFromDb()
-        val tempWeekItemList = ArrayList<DayItem>()
-        if(itemStorageWeekList!=null){
             var dateFromDb:LocalDate
             val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
             var formattedDate:String
-            for (i in itemStorageWeekList.indices) {
-                dateFromDb = LocalDate.parse(itemStorageWeekList[i].date)
+            for (i in itemStorageList.indices) {
+                dateFromDb = LocalDate.parse(itemStorageList[i].date)
                 formattedDate = formatter.format(dateFromDb)
                 val dayItem = DayItem(
                     date = formattedDate,
-                    income = itemStorageWeekList[i].income,
-                    consumption = itemStorageWeekList[i].consumption,
-                    profit = itemStorageWeekList[i].profit
+                    incomeConsumption = itemStorageList[i].incomeConsumption,
+                    typeItem = itemStorageList[i].typeItem,
                 )
-                tempWeekItemList.add(dayItem)
+                tempAllItemList.add(dayItem)
             }
         }
-        Log.d("MyLog","tempDayItemListWeek: $tempWeekItemList")
-        dayItemList = tempWeekItemList
-        return dayItemList
+        return tempAllItemList
     }
-
-    override suspend fun loadMonthItemsFromDb(): List<DayItem> {
-        val itemStorageMonthList:List<ItemStorage> = dayItemStorage.loadMonthItemsFromDb()
-        val tempMonthItemList = ArrayList<DayItem>()
-        if(itemStorageMonthList!=null){
-            var dateFromDb:LocalDate
-            val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-            var formattedDate:String
-            for (i in itemStorageMonthList.indices) {
-                dateFromDb = LocalDate.parse(itemStorageMonthList[i].date)
-                formattedDate = formatter.format(dateFromDb)
-                val dayItem = DayItem(
-                    date = formattedDate,
-                    income = itemStorageMonthList[i].income,
-                    consumption = itemStorageMonthList[i].consumption,
-                    profit = itemStorageMonthList[i].profit
-                )
-                tempMonthItemList.add(dayItem)
-            }
-        }
-        Log.d("MyLog","tempDayItemListWeek: $tempMonthItemList")
-        dayItemList = tempMonthItemList
-        return dayItemList
-    }
-
-
 }

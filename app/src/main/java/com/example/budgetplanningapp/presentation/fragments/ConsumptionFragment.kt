@@ -11,9 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.budgetplanningapp.databinding.FragmentIncomeConsumptionBinding
 import com.example.budgetplanningapp.domain.models.DayItem
 import com.example.budgetplanningapp.presentation.DayItemDialog
-import com.example.budgetplanningapp.presentation.fragments.Choosesfragments.AllTimeFragment
-import com.example.budgetplanningapp.presentation.fragments.Choosesfragments.MonthFragment
-import com.example.budgetplanningapp.presentation.fragments.Choosesfragments.WeekFragment
+import com.example.budgetplanningapp.presentation.fragments.chosenfragments.AllTimeFragment
+import com.example.budgetplanningapp.presentation.fragments.chosenfragments.MonthFragment
+import com.example.budgetplanningapp.presentation.fragments.chosenfragments.WeekFragment
 import com.example.budgetplanningapp.presentation.viewmodels.MainViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 

@@ -4,7 +4,10 @@ import com.example.budgetplanningapp.data.storage.database.ItemStorage
 
 interface DayItemStorage {
      suspend fun save(itemStorage: ItemStorage):Boolean
-     suspend fun load(): List<ItemStorage>
-     suspend fun loadWeekItemsFromDb():List<ItemStorage>
-     suspend fun loadMonthItemsFromDb():List<ItemStorage>
+     suspend fun loadAllIncItem(): List<ItemStorage>
+     suspend fun loadAllConsItem(): List<ItemStorage>
+     suspend fun loadWeekIncItemFromDb():List<ItemStorage>
+     suspend fun loadWeekConsItemFromDb():List<ItemStorage>
+     suspend fun loadMonthIncItemFromDb():List<ItemStorage>
+     suspend fun loadMonthConsItemFromDb():List<ItemStorage>
 }

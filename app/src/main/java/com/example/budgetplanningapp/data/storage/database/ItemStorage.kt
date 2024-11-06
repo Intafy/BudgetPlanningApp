@@ -10,12 +10,10 @@ data class ItemStorage(
     var id: Int? = null,
     @ColumnInfo(name="date")
     val date: String,
-    @ColumnInfo(name="income")
-    val income: Double,
-    @ColumnInfo(name="consumption")
-    val consumption: Double,
-    @ColumnInfo(name="profit")
-    val profit: Double
+    @ColumnInfo(name="income/consumption")
+    val incomeConsumption: Double,
+    @ColumnInfo(name="typeItem")
+    val typeItem: String
 )
 
 

@@ -16,16 +16,28 @@ class DbDayItemStorage(context:Context): DayItemStorage {
         return@withContext true
     }
 
-    override suspend fun load(): List<ItemStorage> {
+    override suspend fun loadAllIncItem(): List<ItemStorage> {
 
-        return mainDb.getDao().getAllItems()
+        return mainDb.getDao().getAllIncItem()
+        }
+    override suspend fun loadAllConsItem(): List<ItemStorage> {
+
+        return mainDb.getDao().getAllConsItem()
         }
 
-    override suspend fun loadWeekItemsFromDb(): List<ItemStorage> {
-        return mainDb.getDao().getWeekItems()
+    override suspend fun loadWeekIncItemFromDb(): List<ItemStorage> {
+        return mainDb.getDao().getWeekIncItem()
+
+    } override suspend fun loadWeekConsItemFromDb(): List<ItemStorage> {
+        return mainDb.getDao().getWeekConsItem()
     }
 
-    override suspend fun loadMonthItemsFromDb(): List<ItemStorage> {
-        return mainDb.getDao().getMonthItems()
+    override suspend fun loadMonthIncItemFromDb(): List<ItemStorage> {
+        return mainDb.getDao().getMonthIncItem()
     }
+
+    override suspend fun loadMonthConsItemFromDb(): List<ItemStorage> {
+        return mainDb.getDao().getMonthConsItem()
+    }
+
 }

@@ -14,7 +14,7 @@ import com.example.budgetplanningapp.presentation.viewmodels.MainViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-class MainFragment : androidx.fragment.app.Fragment() {
+class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private val listIncCons = listOf(
         "Доходы",
