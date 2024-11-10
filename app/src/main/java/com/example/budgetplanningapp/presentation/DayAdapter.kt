@@ -1,6 +1,6 @@
 package com.example.budgetplanningapp.presentation
 
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,9 +41,7 @@ class DayAdapter(private var listItem: ArrayList<DayItem>,private val typeItem:S
     }
 
     fun setList(plistItem:ArrayList<DayItem>){
-        Log.d("MyLog","plisitem: $plistItem")
         listItem=plistItem
-        Log.d("MyLog","listItem: $listItem")
         notifyDataSetChanged()
     }
 }

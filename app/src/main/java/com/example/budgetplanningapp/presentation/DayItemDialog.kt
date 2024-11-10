@@ -2,7 +2,6 @@ package com.example.budgetplanningapp.presentation
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,7 +67,6 @@ class DayItemDialog(private var listener:Listener,private  val typeItem:String):
 
             model.onLoadChosenDay().observe(viewLifecycleOwner) {
                  tvDate.text = calendarDate
-                 Log.d("MyLog", "calendarDate: $calendarDate")
             }
 
             val dateListener =
@@ -106,9 +104,6 @@ class DayItemDialog(private var listener:Listener,private  val typeItem:String):
         calendarDate = String.format("%02d.%02d.%04d", day, month + 1, year)
         formattedDate = String.format("%04d-%02d-%02d", year, month + 1, day)
         tvDate.text = calendarDate
-        Log.d("MyLog", "date: $day")
-        Log.d("MyLog", "month: $month")
-        Log.d("MyLog", "year: $year")
     }
 
     interface Listener {

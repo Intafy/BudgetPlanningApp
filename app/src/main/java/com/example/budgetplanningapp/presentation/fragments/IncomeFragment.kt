@@ -1,7 +1,6 @@
 package com.example.budgetplanningapp.presentation.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -67,6 +66,5 @@ class IncomeFragment(private val typeItem:String) : Fragment(),DayItemDialog.Lis
 
     override fun onClick(item: DayItem) {
         model.onSaveItemToDb(item)
-        Log.d("MyLog","Запись добавлена")
     }
 }

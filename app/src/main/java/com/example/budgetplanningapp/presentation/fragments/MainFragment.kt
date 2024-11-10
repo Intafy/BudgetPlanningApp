@@ -2,7 +2,6 @@ package com.example.budgetplanningapp.presentation.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +41,6 @@ class MainFragment : Fragment() {
         model.onLoadBalanceValue().observe(viewLifecycleOwner){
             binding.tvBalanceValue.text=it.toString()
         }
-        Log.d("MyLog", "Activity created")
     }
 
     private fun init(){
@@ -60,11 +58,4 @@ class MainFragment : Fragment() {
         @JvmStatic
         fun newInstance() = MainFragment()
     }
-
-//    override fun onClick(item: DayItem) {
-//
-//        model.onSaveItemToDb(item)
-//        Log.d("MyLog","Запись добавлена")
-//
-//    }
 }

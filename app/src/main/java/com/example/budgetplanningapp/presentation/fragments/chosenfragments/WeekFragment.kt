@@ -1,7 +1,6 @@
 package com.example.budgetplanningapp.presentation.fragments.chosenfragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +34,6 @@ class WeekFragment(private val typeItem:String) : Fragment() {
         if(typeItem=="Доходы"){
             model.onLoadWeekIncLiveData().observe(viewLifecycleOwner){
                 //Запустится когда изменится liveDataList
-                Log.d("MyLog","observeIncAll: $it")
                 adapter.setList(it)
             }
             model.onLoadWeekIncValueLiveData().observe(viewLifecycleOwner){
@@ -46,7 +44,6 @@ class WeekFragment(private val typeItem:String) : Fragment() {
             if(typeItem=="Расходы") {
                 model.onLoadWeekConsLiveData().observe(viewLifecycleOwner) {
                     //Запустится когда изменится liveDataList
-                    Log.d("MyLog", "observeConsAll: $it")
                     adapter.setList(it)
                 }
                 model.onLoadWeekConsValueLiveData().observe(viewLifecycleOwner){

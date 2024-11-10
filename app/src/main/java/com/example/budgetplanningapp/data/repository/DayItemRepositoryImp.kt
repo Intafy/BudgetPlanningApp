@@ -1,6 +1,6 @@
 package com.example.budgetplanningapp.data.repository
 
-import android.util.Log
+
 import com.example.budgetplanningapp.data.storage.DayItemStorage
 import com.example.budgetplanningapp.data.storage.database.ItemStorage
 import com.example.budgetplanningapp.domain.models.DayItem
@@ -21,7 +21,6 @@ class DayItemRepositoryImp(private val dayItemStorage: DayItemStorage): DayItemR
                 incomeConsumption = dayItem.incomeConsumption,
                 typeItem = dayItem.typeItem
             )
-            Log.d("MyLog", "CoroutineScopeSave is running")
             result = dayItemStorage.save(itemStorage)
         return result
     }

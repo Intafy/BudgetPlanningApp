@@ -1,7 +1,5 @@
 package com.example.budgetplanningapp.presentation.viewmodels
 
-
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -58,10 +56,10 @@ class MainViewModel(
         onGetMonthIncItemFromDb()
         liveDataMonthConsList.value?.clear()
         onGetMonthConsItemFromDb()
-//        onGetBalanceValue()
-
-        Log.d("MyLog", "VM created")
     }
+
+    //Записываем в LiveData значение списков, полученных из БД
+    //и считаем итоговые расходы и доходы согласно периодам
     private fun onGetAllItemFromDb() {
         viewModelScope.launch {
             val itemIncList = loadListAllIncItemUseCase.execute() as ArrayList
@@ -69,37 +67,15 @@ class MainViewModel(
             liveDataAllIncList.value = itemIncList
             liveDataAllConsList.value = itemConsList
             liveDataBalanceValue.value = onCalculated(itemIncList,itemConsList)
-            Log.d("MyLog", "liveDataAllIncList: ${liveDataAllIncList.value}")
-            Log.d("MyLog", "liveDataAllIncValue: ${liveDataAllIncValue.value}")
         }
     }
-    //Записываем в LiveData значение списков, полученных из БД
-    //и считаем итоговые расходы и доходы согласно периодам
-    private fun onGetAllIncItemFromDb() {
-        viewModelScope.launch {
-            val itemList = loadListAllIncItemUseCase.execute() as ArrayList
-            liveDataAllIncList.value = itemList
-            liveDataAllIncValue.value = onCalculatedIncCons(itemList)
-            Log.d("MyLog", "liveDataAllIncList: ${liveDataAllIncList.value}")
-            Log.d("MyLog", "liveDataAllIncValue: ${liveDataAllIncValue.value}")
-        }
-    }
-    private fun onGetAllConsItemFromDb() {
-        viewModelScope.launch {
-            val itemList = loadListAllConsItemUseCase.execute() as ArrayList
-            liveDataAllConsList.value = itemList
-            liveDataAllConsValue.value = onCalculatedIncCons(itemList)
-            Log.d("MyLog", "liveDataAllConsValue: ${liveDataAllConsValue.value}")
 
-            Log.d("MyLog", "liveDataAllConsList: ${liveDataAllConsList.value}")
-        }
-    }
     private fun onGetWeekIncItemFromDb(){
         viewModelScope.launch {
             val itemList = loadListWeekIncItemUseCase.execute() as ArrayList
             liveDataWeekIncList.value= itemList
             liveDataWeekIncValue.value = onCalculatedIncCons(itemList).toString()
-            Log.d("MyLog","liveDataWeekList: ${liveDataWeekIncList.value}")
+
         }
     }
     private fun onGetWeekConsItemFromDb(){
@@ -107,7 +83,6 @@ class MainViewModel(
             val itemList = loadListWeekConsItemUseCase.execute() as ArrayList
             liveDataWeekConsList.value = itemList
             liveDataWeekConsValue.value = onCalculatedIncCons(itemList).toString()
-            Log.d("MyLog","liveDataWeekList: ${liveDataWeekConsList.value}")
         }
     }
     private fun onGetMonthIncItemFromDb(){
@@ -115,7 +90,6 @@ class MainViewModel(
             val itemList = loadListMonthIncItemUseCase.execute() as ArrayList
             liveDataMonthIncList.value= itemList
             liveDataMonthIncValue.value = onCalculatedIncCons(itemList).toString()
-            Log.d("MyLog","liveDataMonthList: ${liveDataMonthIncList.value}")
         }
     }
     private fun onGetMonthConsItemFromDb(){
@@ -123,14 +97,9 @@ class MainViewModel(
             val itemList = loadListMonthConsItemUseCase.execute() as ArrayList
             liveDataMonthConsList.value = itemList
             liveDataMonthConsValue.value = onCalculatedIncCons(itemList).toString()
-            Log.d("MyLog","liveDataMonthList: ${liveDataMonthConsList.value}")
         }
     }
-//    private fun onGetBalanceValue(){
-//
-//            liveDataBalanceValue.value = liveDataAllIncValue.value!!-liveDataAllConsValue.value!!
-//
-//    }
+
     //Эта функция сохраняет в БД новый Item
     fun onSaveItemToDb(item: DayItem) {
             viewModelScope.launch(Dispatchers.IO) {
@@ -228,10 +197,5 @@ class MainViewModel(
         liveDataAllIncValue.value=sumInc
         liveDataAllConsValue.value=sumCons
         return sumInc-sumCons
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("MyLog", "Vm cleared")
     }
 }

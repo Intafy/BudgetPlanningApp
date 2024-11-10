@@ -12,7 +12,6 @@ import com.example.budgetplanningapp.presentation.viewmodels.MainViewModelFactor
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: DayAdapter
     private lateinit var model: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

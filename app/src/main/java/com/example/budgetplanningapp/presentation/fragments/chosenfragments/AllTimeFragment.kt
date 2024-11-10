@@ -1,7 +1,6 @@
 package com.example.budgetplanningapp.presentation.fragments.chosenfragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +35,6 @@ class AllTimeFragment(private val typeItem:String) : Fragment() {
         if(typeItem=="Доходы"){
             model.onLoadAllIncLiveData().observe(viewLifecycleOwner){
                 //Запустится когда изменится liveDataList
-                Log.d("MyLog","observeIncAll: $it")
                 adapter.setList(it)
             }
             model.onLoadAllIncValueLiveData().observe(viewLifecycleOwner){
@@ -48,7 +46,6 @@ class AllTimeFragment(private val typeItem:String) : Fragment() {
             if(typeItem=="Расходы") {
                 model.onLoadAllConsLivedata().observe(viewLifecycleOwner) {
                     //Запустится когда изменится liveDataList
-                    Log.d("MyLog", "observeConsAll: $it")
                     adapter.setList(it)
                 }
                 model.onLoadAllConsValueLiveData().observe(viewLifecycleOwner){
@@ -56,13 +53,6 @@ class AllTimeFragment(private val typeItem:String) : Fragment() {
                 }
             }
         }
-
-//        model.onLoadAllLiveData().observe(viewLifecycleOwner) {
-//            //Запустится когда изменится liveDataList
-//            Log.d("MyLog","observeAll: $it")
-//            adapter.setList(it)
-//        }
-
     }
     private fun init(){
         adapter = DayAdapter(dayItemList,typeItem)
