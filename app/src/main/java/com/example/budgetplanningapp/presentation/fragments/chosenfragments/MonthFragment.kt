@@ -36,6 +36,10 @@ class MonthFragment(private val typeItem:String): Fragment() {
                 Log.d("MyLog","observeIncAll: $it")
                 adapter.setList(it)
             }
+            model.onLoadMonthIncValueLiveData().observe(viewLifecycleOwner){
+                binding.tvIncConValue.text = it
+            }
+
         }
         else {
             if(typeItem=="Расходы") {
@@ -43,6 +47,9 @@ class MonthFragment(private val typeItem:String): Fragment() {
                     //Запустится когда изменится liveDataList
                     Log.d("MyLog", "observeConsAll: $it")
                     adapter.setList(it)
+                }
+                model.onLoadMonthConsValueLiveData().observe(viewLifecycleOwner){
+                    binding.tvIncConValue.text = it
                 }
             }
         }

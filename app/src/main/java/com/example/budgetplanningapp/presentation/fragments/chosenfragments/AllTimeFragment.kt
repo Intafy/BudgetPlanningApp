@@ -39,6 +39,10 @@ class AllTimeFragment(private val typeItem:String) : Fragment() {
                 Log.d("MyLog","observeIncAll: $it")
                 adapter.setList(it)
             }
+            model.onLoadAllIncValueLiveData().observe(viewLifecycleOwner){
+                binding.tvIncConValue.text = it.toString()
+            }
+
         }
         else {
             if(typeItem=="Расходы") {
@@ -46,6 +50,9 @@ class AllTimeFragment(private val typeItem:String) : Fragment() {
                     //Запустится когда изменится liveDataList
                     Log.d("MyLog", "observeConsAll: $it")
                     adapter.setList(it)
+                }
+                model.onLoadAllConsValueLiveData().observe(viewLifecycleOwner){
+                    binding.tvIncConValue.text = it.toString()
                 }
             }
         }

@@ -34,14 +34,22 @@ class MainViewModel(
     private var liveDataWeekConsList = MutableLiveData<ArrayList<DayItem>>()
     private var liveDataMonthIncList = MutableLiveData<ArrayList<DayItem>>()
     private var liveDataMonthConsList = MutableLiveData<ArrayList<DayItem>>()
+    private var liveDataWeekIncValue = MutableLiveData<String>()
+    private var liveDataWeekConsValue = MutableLiveData<String>()
+    private var liveDataMonthIncValue = MutableLiveData<String>()
+    private var liveDataMonthConsValue = MutableLiveData<String>()
+    private var liveDataAllIncValue = MutableLiveData<Double>()
+    private var liveDataAllConsValue = MutableLiveData<Double>()
+    private var liveDataBalanceValue = MutableLiveData<Double>()
     private var liveDataChosenDay = MutableLiveData<String>()
 
     // В блоке init запускаем функцию чтения с базы данных всех Item
     init {
         liveDataAllIncList.value?.clear()
-        onGetAllIncItemFromDb()
+//        onGetAllIncItemFromDb()
         liveDataAllConsList.value?.clear()
-        onGetAllConsItemFromDb()
+//        onGetAllConsItemFromDb()
+        onGetAllItemFromDb()
         liveDataWeekIncList.value?.clear()
         onGetWeekIncItemFromDb()
         liveDataWeekConsList.value?.clear()
@@ -50,48 +58,79 @@ class MainViewModel(
         onGetMonthIncItemFromDb()
         liveDataMonthConsList.value?.clear()
         onGetMonthConsItemFromDb()
+//        onGetBalanceValue()
+
         Log.d("MyLog", "VM created")
     }
-
-    //Записываем в LiveData значение списка, полученного из БД
+    private fun onGetAllItemFromDb() {
+        viewModelScope.launch {
+            val itemIncList = loadListAllIncItemUseCase.execute() as ArrayList
+            val itemConsList = loadListAllConsItemUseCase.execute() as ArrayList
+            liveDataAllIncList.value = itemIncList
+            liveDataAllConsList.value = itemConsList
+            liveDataBalanceValue.value = onCalculated(itemIncList,itemConsList)
+            Log.d("MyLog", "liveDataAllIncList: ${liveDataAllIncList.value}")
+            Log.d("MyLog", "liveDataAllIncValue: ${liveDataAllIncValue.value}")
+        }
+    }
+    //Записываем в LiveData значение списков, полученных из БД
+    //и считаем итоговые расходы и доходы согласно периодам
     private fun onGetAllIncItemFromDb() {
         viewModelScope.launch {
-            liveDataAllIncList.value = loadListAllIncItemUseCase.execute() as ArrayList
-            Log.d("MyLog", "liveDataAllList: ${liveDataAllIncList.value}")
+            val itemList = loadListAllIncItemUseCase.execute() as ArrayList
+            liveDataAllIncList.value = itemList
+            liveDataAllIncValue.value = onCalculatedIncCons(itemList)
+            Log.d("MyLog", "liveDataAllIncList: ${liveDataAllIncList.value}")
+            Log.d("MyLog", "liveDataAllIncValue: ${liveDataAllIncValue.value}")
         }
     }
     private fun onGetAllConsItemFromDb() {
         viewModelScope.launch {
-            liveDataAllConsList.value = loadListAllConsItemUseCase.execute() as ArrayList
-            Log.d("MyLog", "liveDataAllList: ${liveDataAllConsList.value}")
-//        }
+            val itemList = loadListAllConsItemUseCase.execute() as ArrayList
+            liveDataAllConsList.value = itemList
+            liveDataAllConsValue.value = onCalculatedIncCons(itemList)
+            Log.d("MyLog", "liveDataAllConsValue: ${liveDataAllConsValue.value}")
+
+            Log.d("MyLog", "liveDataAllConsList: ${liveDataAllConsList.value}")
         }
     }
     private fun onGetWeekIncItemFromDb(){
         viewModelScope.launch {
-            liveDataWeekIncList.value=loadListWeekIncItemUseCase.execute() as ArrayList
+            val itemList = loadListWeekIncItemUseCase.execute() as ArrayList
+            liveDataWeekIncList.value= itemList
+            liveDataWeekIncValue.value = onCalculatedIncCons(itemList).toString()
             Log.d("MyLog","liveDataWeekList: ${liveDataWeekIncList.value}")
         }
     }
     private fun onGetWeekConsItemFromDb(){
         viewModelScope.launch {
-            liveDataWeekConsList.value=loadListWeekConsItemUseCase.execute() as ArrayList
+            val itemList = loadListWeekConsItemUseCase.execute() as ArrayList
+            liveDataWeekConsList.value = itemList
+            liveDataWeekConsValue.value = onCalculatedIncCons(itemList).toString()
             Log.d("MyLog","liveDataWeekList: ${liveDataWeekConsList.value}")
         }
     }
     private fun onGetMonthIncItemFromDb(){
         viewModelScope.launch {
-            liveDataMonthIncList.value=loadListMonthIncItemUseCase.execute() as ArrayList
+            val itemList = loadListMonthIncItemUseCase.execute() as ArrayList
+            liveDataMonthIncList.value= itemList
+            liveDataMonthIncValue.value = onCalculatedIncCons(itemList).toString()
             Log.d("MyLog","liveDataMonthList: ${liveDataMonthIncList.value}")
         }
     }
     private fun onGetMonthConsItemFromDb(){
         viewModelScope.launch {
-            liveDataMonthConsList.value=loadListMonthConsItemUseCase.execute() as ArrayList
+            val itemList = loadListMonthConsItemUseCase.execute() as ArrayList
+            liveDataMonthConsList.value = itemList
+            liveDataMonthConsValue.value = onCalculatedIncCons(itemList).toString()
             Log.d("MyLog","liveDataMonthList: ${liveDataMonthConsList.value}")
         }
     }
-
+//    private fun onGetBalanceValue(){
+//
+//            liveDataBalanceValue.value = liveDataAllIncValue.value!!-liveDataAllConsValue.value!!
+//
+//    }
     //Эта функция сохраняет в БД новый Item
     fun onSaveItemToDb(item: DayItem) {
             viewModelScope.launch(Dispatchers.IO) {
@@ -104,47 +143,92 @@ class MainViewModel(
                 liveDataMonthConsList.value!!.clear()
                 saveDayItemUseCase.execute(item)
                 //Делаем запрос к бд после сохранения
-                onGetAllIncItemFromDb()
-                onGetAllConsItemFromDb()
+//                onGetAllIncItemFromDb()
+//                onGetAllConsItemFromDb()
+                onGetAllItemFromDb()
                 onGetMonthIncItemFromDb()
                 onGetMonthConsItemFromDb()
                 onGetWeekIncItemFromDb()
                 onGetWeekConsItemFromDb()
+//                onGetBalanceValue()
             }
         }
     //Здесь сохраняем дату, полученную с календаря
     fun onSaveChosenDay(chosenDay: String) {
         liveDataChosenDay.value = chosenDay
     }
-    //Эти функции возвращают LiveData всем, кто будет подписан на нее
+
+    //Эти функции возвращают списки доходов и расходов в
+    // зависимости от выбранного периода
     fun onLoadWeekIncLiveData(): LiveData<ArrayList<DayItem>> {
             return liveDataWeekIncList
         }
-
     fun onLoadWeekConsLiveData(): LiveData<ArrayList<DayItem>> {
             return liveDataWeekConsList
         }
-
     fun onLoadMonthIncLiveData(): LiveData<ArrayList<DayItem>> {
             return liveDataMonthIncList
         }
-
     fun onLoadMonthConsLiveData(): LiveData<ArrayList<DayItem>> {
             return liveDataMonthConsList
         }
-
     fun onLoadAllIncLiveData(): LiveData<ArrayList<DayItem>> {
             return liveDataAllIncList
         }
-
     fun onLoadAllConsLivedata(): LiveData<ArrayList<DayItem>> {
             return liveDataAllConsList
  }
+    fun onLoadBalanceValue():LiveData<Double>{
+        return liveDataBalanceValue
+    }
+
+    //Эти функции возвращают значения общих сумм расходов и доходов
+    //в зависимости от выбранного периода
+    fun onLoadAllIncValueLiveData():LiveData<Double>{
+        return liveDataAllIncValue
+    }
+    fun onLoadAllConsValueLiveData():LiveData<Double>{
+        return liveDataAllConsValue
+    }
+    fun onLoadWeekIncValueLiveData():LiveData<String>{
+        return liveDataWeekIncValue
+    }
+    fun onLoadWeekConsValueLiveData():LiveData<String>{
+        return liveDataWeekConsValue
+    }
+    fun onLoadMonthIncValueLiveData():LiveData<String>{
+        return liveDataMonthIncValue
+
+    }
+    fun onLoadMonthConsValueLiveData():LiveData<String>{
+        return liveDataMonthConsValue
+    }
 
     //Возвращает значение дня, выбранного в календаре
     fun onLoadChosenDay(): LiveData<String> {
       return liveDataChosenDay
   }
+
+    private fun onCalculatedIncCons(itemList:List<DayItem>):Double{
+        var sum = 0.0
+        for(i in 0..<itemList.size){
+            sum += itemList[i].incomeConsumption
+        }
+        return sum
+    }
+    private fun onCalculated(itemIncList:List<DayItem>,itemConsList:List<DayItem>):Double{
+        var sumInc = 0.0
+        var sumCons = 0.0
+        for(i in 0..<itemIncList.size){
+            sumInc += itemIncList[i].incomeConsumption
+        }
+        for(i in 0..<itemConsList.size){
+            sumCons += itemConsList[i].incomeConsumption
+        }
+        liveDataAllIncValue.value=sumInc
+        liveDataAllConsValue.value=sumCons
+        return sumInc-sumCons
+    }
 
     override fun onCleared() {
         super.onCleared()

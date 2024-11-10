@@ -39,10 +39,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-//        binding.btnAdd.setOnClickListener {
-//            val itemDialog = DayItemDialog(this)
-//            itemDialog.show(childFragmentManager, "itemDialog")
-//        }
+        model.onLoadBalanceValue().observe(viewLifecycleOwner){
+            binding.tvBalanceValue.text=it.toString()
+        }
         Log.d("MyLog", "Activity created")
     }
 

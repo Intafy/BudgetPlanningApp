@@ -38,6 +38,9 @@ class WeekFragment(private val typeItem:String) : Fragment() {
                 Log.d("MyLog","observeIncAll: $it")
                 adapter.setList(it)
             }
+            model.onLoadWeekIncValueLiveData().observe(viewLifecycleOwner){
+                binding.tvIncConValue.text = it
+            }
         }
         else {
             if(typeItem=="Расходы") {
@@ -45,6 +48,9 @@ class WeekFragment(private val typeItem:String) : Fragment() {
                     //Запустится когда изменится liveDataList
                     Log.d("MyLog", "observeConsAll: $it")
                     adapter.setList(it)
+                }
+                model.onLoadWeekConsValueLiveData().observe(viewLifecycleOwner){
+                    binding.tvIncConValue.text = it
                 }
             }
         }
